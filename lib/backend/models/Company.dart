@@ -65,8 +65,10 @@ class Company {
       website: map['website'],
       logo: map['logo'],
       backdrop: map['backdrop'],
-      locations: List<CompanyLocation>.from(
-          map['locations']?.map((x) => CompanyLocation.fromMap(x))),
+      locations: map["locations"] == null
+          ? []
+          : List<CompanyLocation>.from(
+              map['locations']?.map((x) => CompanyLocation.fromMap(x))),
     );
   }
 
