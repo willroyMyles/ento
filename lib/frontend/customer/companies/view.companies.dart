@@ -15,6 +15,32 @@ class CompaniesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          onPressed: () {
+            controller.api.getNotificationTypes();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+                color: Colors.blueGrey.shade700,
+                borderRadius: BorderRadius.circular(4),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 10,
+                      color: Colors.grey.withOpacity(.8),
+                      offset: Offset(2, 3))
+                ]),
+            child: Icon(
+              CupertinoIcons.add,
+              size: 32,
+            ),
+          ),
+          tooltip: "Add a company",
+        ),
         drawer: Drawer(
           elevation: 10,
           child: DrawerView(),
@@ -33,15 +59,18 @@ class CompaniesView extends StatelessWidget {
                 label: Text("")),
           ),
           actions: [
-            TextButton.icon(
+            Container(
+              child: TextButton.icon(
                 onPressed: () {
                   Get.to(() => ScanQRCode());
                 },
                 icon: Icon(
-                  CupertinoIcons.add,
+                  CupertinoIcons.search,
                   color: Colors.white,
                 ),
-                label: Text("add"))
+                label: Text(""),
+              ),
+            )
           ],
         ),
         body: GetBuilder<CompanyState>(

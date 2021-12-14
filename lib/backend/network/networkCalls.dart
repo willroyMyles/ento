@@ -6,4 +6,14 @@ class NetworkCalls extends BaseCalls {
     var res = await findAll(companyEndpoint);
     return res;
   }
+
+  Future<Response<dynamic>> getNotifications(String id) async {
+    var res = await dio.get("$baseUrl$companyEndpoint/$id$notificaionEndpoint");
+    return res;
+  }
+
+  getNotificationTypes() async {
+    var res = await dio.get("$baseUrl$notificaionEndpoint/types");
+    return res;
+  }
 }

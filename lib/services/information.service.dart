@@ -3,9 +3,14 @@ import 'package:get/get.dart';
 
 class InformationService {
   RxObject<Company> companies = new RxObject({});
+  RxList<String> notificationTypes = RxList([]);
 
   setCompanies(List<dynamic> list) => companies.set(list);
   updateCompanies(Company model) => companies.updateModel(model);
+  setNotificationTypes(List<String> list) => notificationTypes.value = list;
+  updateNotificationTypes(String type) => notificationTypes
+    ..add(type)
+    ..refresh();
 }
 
 class RxObject<T> extends Rx<Map<dynamic, dynamic>> {
