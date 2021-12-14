@@ -1,5 +1,6 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/frontend/login/view.login.dart';
+import 'package:ento/services/theme.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: themeService.lightTheme,
       routes: {"/": (context) => MainPage()},
     );
   }

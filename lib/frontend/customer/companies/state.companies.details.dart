@@ -1,4 +1,6 @@
 import 'package:ento/backend/api/api.dart';
+import 'package:ento/backend/models/Company.dart';
+import 'package:ento/frontend/components/showQRCode.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,5 +31,13 @@ class CompanyDetailsState extends GetxController with StateMixin {
     appBarHeight = appBarHeight == 50 ? Get.height - 300 : 50;
     isExpanded = appBarHeight != 50;
     refresh();
+  }
+
+  showQrCode(Company model) {
+    Get.dialog(
+        AlertDialog(
+          content: ShowQrCode(model: model),
+        ),
+        barrierColor: Colors.grey.withOpacity(.3));
   }
 }

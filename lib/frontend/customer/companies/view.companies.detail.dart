@@ -22,9 +22,14 @@ class CompaniesDetailView extends StatelessWidget {
               SliverAppBar(
                 title: Text(model.name),
                 actions: [
-                  Container(
-                    padding: EdgeInsets.only(left: 20, right: 15),
-                    child: Icon(CupertinoIcons.qrcode),
+                  InkWell(
+                    onTap: () {
+                      controller.showQrCode(model);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, right: 15),
+                      child: Icon(CupertinoIcons.qrcode),
+                    ),
                   ),
                 ],
               ),

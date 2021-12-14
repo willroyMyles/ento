@@ -42,7 +42,7 @@ class CompaniesView extends StatelessWidget {
           tooltip: "Add a company",
         ),
         drawer: Drawer(
-          elevation: 10,
+          elevation: 0,
           child: DrawerView(),
         ),
         appBar: AppBar(
