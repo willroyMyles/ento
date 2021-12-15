@@ -26,6 +26,12 @@ class ShowQrCode extends StatelessWidget {
               data: model.toJson(),
               size: Get.width - 150,
             ),
+            SizedBox(
+              height: 25,
+            ),
+            Container(
+              child: Text("ENTO"),
+            ),
           ],
         ));
   }

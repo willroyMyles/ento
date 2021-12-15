@@ -70,6 +70,18 @@ class CompaniesView extends StatelessWidget {
                 ),
                 label: Text(""),
               ),
+            ),
+            Container(
+              child: TextButton.icon(
+                onPressed: () {
+                  Get.to(() => ScanQRCode());
+                },
+                icon: Icon(
+                  CupertinoIcons.qrcode_viewfinder,
+                  color: Colors.white,
+                ),
+                label: Text(""),
+              ),
             )
           ],
         ),
