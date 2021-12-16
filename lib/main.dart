@@ -1,5 +1,6 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/frontend/login/view.login.dart';
+import 'package:ento/services/tags.service.dart';
 import 'package:ento/services/theme.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

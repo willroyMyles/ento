@@ -5,6 +5,7 @@ class BaseCalls {
   String baseUrl = "http://192.168.100.194:3000";
   String companyEndpoint = "/companies";
   String notificaionEndpoint = "/notifications";
+  String formsEndpoint = "/forms";
 
   Future<Response> create(String endpoint, dynamic data) async {
     var response = await dio.post("$baseUrl$endpoint", data: data);

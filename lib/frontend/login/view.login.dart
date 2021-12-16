@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'state.login.dart';
+
 class LoginView extends StatelessWidget {
-  const LoginView({Key? key}) : super(key: key);
+  LoginView({Key? key}) : super(key: key);
+  final controller = Get.put(LoginState());
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +64,21 @@ class LoginView extends StatelessWidget {
                               helperText: "",
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: SizedBox.fromSize(
-                              size: Size(Get.width / 1.8, 60),
-                              child: ListTile(
-                                dense: false,
-                                title: Text("i am a company"),
-                                trailing: Container(
-                                  child: Switch(
-                                    onChanged: (value) {},
-                                    value: false,
+                          controller.obx(
+                            (state) => Container(
+                              alignment: Alignment.centerRight,
+                              child: SizedBox.fromSize(
+                                size: Size(Get.width / 1.8, 60),
+                                child: ListTile(
+                                  dense: false,
+                                  title: Text("i am a company"),
+                                  trailing: Container(
+                                    child: Switch(
+                                      onChanged: (value) {
+                                        controller.toggleIsCompany();
+                                      },
+                                      value: controller.isCompany,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -79,7 +86,7 @@ class LoginView extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.off(() => CompaniesView());
+                              controller.onLogin();
                             },
                             child: Container(
                               child: Row(
