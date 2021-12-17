@@ -1,10 +1,24 @@
 import 'package:ento/backend/models/Company.dart';
+import 'package:ento/backend/models/UserData.dart';
 import 'package:get/get.dart';
 
 class InformationService {
   RxObject<Company> companies = new RxObject({});
   RxObject<Company> notifications = new RxObject({});
+  Rx<UserData> userData = UserData(id: "", email: "").obs;
+  Rx<Company> myCompany = Company.empty().obs;
   RxList<String> notificationTypes = RxList([]);
+
+  setUserData(UserData data) {
+    userData.value = data;
+    userData.refresh();
+    print("user data refreshed $userData");
+  }
+
+  setMyCompany(Company company) {
+    myCompany.value = company;
+    myCompany.refresh();
+  }
 
   setCompanies(List<dynamic> list) => companies.set(list);
   updateCompanies(Company model) => companies.updateModel(model);

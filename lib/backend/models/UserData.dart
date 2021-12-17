@@ -13,8 +13,8 @@ class UserData {
   UserData({
     required this.id,
     required this.email,
-    required this.gender,
-    required this.ageGroup,
+    this.gender = Gender.OTHER,
+    this.ageGroup = AgeGroup.ZERO_TO_TWENTY,
     this.token,
   });
 
@@ -48,8 +48,12 @@ class UserData {
     return UserData(
       id: map['id'] ?? '',
       email: map['email'] ?? '',
-      gender: Gender.OTHER.fromMap(map['gender']),
-      ageGroup: AgeGroup.ZERO_TO_TWENTY.fromMap(map['ageGroup']),
+      gender: map['gender'] == null
+          ? Gender.OTHER
+          : Gender.OTHER.fromMap(map['gender']),
+      ageGroup: map['ageGroup'] == null
+          ? AgeGroup.ZERO_TO_TWENTY
+          : AgeGroup.ZERO_TO_TWENTY.fromMap(map['ageGroup']),
       token: map['token'],
     );
   }

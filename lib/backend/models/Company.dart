@@ -11,6 +11,7 @@ class Company {
   String? website;
   String? logo;
   String? backdrop;
+  String? contact;
   List<CompanyLocation>? locations = [];
 
   factory Company.empty() => Company(id: "", email: "", name: "");
@@ -22,6 +23,7 @@ class Company {
     this.website,
     this.logo,
     this.backdrop,
+    this.contact,
     this.locations,
   });
 
@@ -32,6 +34,7 @@ class Company {
     String? website,
     String? logo,
     String? backdrop,
+    String? contact,
     List<CompanyLocation>? locations,
   }) {
     return Company(
@@ -41,6 +44,7 @@ class Company {
       website: website ?? this.website,
       logo: logo ?? this.logo,
       backdrop: backdrop ?? this.backdrop,
+      contact: contact ?? this.contact,
       locations: locations ?? this.locations,
     );
   }
@@ -53,6 +57,7 @@ class Company {
       'website': website,
       'logo': logo,
       'backdrop': backdrop,
+      'contact': contact,
       'locations': locations?.map((x) => x.toMap()).toList(),
     };
   }
@@ -65,10 +70,11 @@ class Company {
       website: map['website'],
       logo: map['logo'],
       backdrop: map['backdrop'],
-      locations: map["locations"] == null
-          ? []
-          : List<CompanyLocation>.from(
-              map['locations']?.map((x) => CompanyLocation.fromMap(x))),
+      contact: map['contact'],
+      locations: map['locations'] != null
+          ? List<CompanyLocation>.from(
+              map['locations']?.map((x) => CompanyLocation.fromMap(x)))
+          : null,
     );
   }
 
@@ -79,7 +85,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(id: $id, email: $email, name: $name, website: $website, logo: $logo, backdrop: $backdrop, locations: $locations)';
+    return 'Company(id: $id, email: $email, name: $name, website: $website, logo: $logo, backdrop: $backdrop, contact: $contact, locations: $locations)';
   }
 
   @override
@@ -93,6 +99,7 @@ class Company {
         other.website == website &&
         other.logo == logo &&
         other.backdrop == backdrop &&
+        other.contact == contact &&
         listEquals(other.locations, locations);
   }
 
@@ -104,6 +111,7 @@ class Company {
         website.hashCode ^
         logo.hashCode ^
         backdrop.hashCode ^
+        contact.hashCode ^
         locations.hashCode;
   }
 }

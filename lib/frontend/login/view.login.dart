@@ -49,6 +49,7 @@ class LoginView extends StatelessWidget {
                         children: [
                           TextField(
                             textAlign: TextAlign.center,
+                            controller: controller.email,
                             decoration: InputDecoration(
                               hintText: "Email",
                               prefixIcon: Icon(CupertinoIcons.at),
@@ -58,6 +59,7 @@ class LoginView extends StatelessWidget {
                           TextField(
                             textAlign: TextAlign.center,
                             obscureText: true,
+                            controller: controller.password,
                             decoration: InputDecoration(
                               hintText: "Password",
                               prefixIcon: Icon(CupertinoIcons.lock_fill),
@@ -84,23 +86,45 @@ class LoginView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              controller.onLogin();
-                            },
-                            child: Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(CupertinoIcons.paperplane),
-                                  SizedBox(
-                                    width: 5,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  controller.onLogin();
+                                },
+                                child: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.downhill_skiing),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text("login"),
+                                    ],
                                   ),
-                                  Text("login"),
-                                ],
+                                ),
                               ),
-                            ),
-                          )
+                              TextButton(
+                                onPressed: () {
+                                  controller.onRegister();
+                                },
+                                child: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.sledding_outlined),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text("register"),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),

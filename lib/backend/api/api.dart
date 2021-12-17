@@ -1,16 +1,20 @@
 import 'dart:async';
 
+import 'package:ento/backend/api/authMixin.dart';
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
+import 'package:ento/backend/models/UserData.dart';
 import 'package:ento/backend/network/networkCalls.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:ento/services/tags.service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import '../extensions/ext.dart';
 
-class ApiCall {
+class ApiCall with AuthMixin {
   //consider moving executor off get management
   final executor = Get.put(NetworkCalls());
   final info = Get.put(
@@ -19,6 +23,51 @@ class ApiCall {
 
   ApiCall() {
     getNotificationTypes();
+    this.auth.authStateChanges().listen((event) {
+      if (event != null) {
+        print("user signed in");
+        var user = UserData.fromMap(event.toLocalUserMap());
+        info.setUserData(user);
+      } else {
+        print("user signed out");
+      }
+    });
+  }
+
+  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      password = password.trim();
+
+      var res = await authSignInWithEmailAndPassword(email, password);
+      if (res != null) {
+        return Future.value(true);
+      } else {
+        return Future.value(false);
+      }
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
+
+  Future<bool> signUpWithEmailAndPassword(String email, String password) async {
+    try {
+      password = password.trim();
+
+      var res = await authSignUpWithEmailAndPassword(email, password);
+      this.createLocalUser(res.user!);
+      return Future.value(true);
+    } catch (e) {
+      return Future.value(false);
+    }
+  }
+
+  createLocalUser(User user) async {
+    try {
+      var res = await executor.createUser(user);
+      var userData = UserData.fromMap(res.data);
+      info.setUserData(userData);
+    } on DioError catch (e) {
+    } on Error catch (e) {}
   }
 
   Future<bool> getCompanies() async {
@@ -116,6 +165,21 @@ class ApiCall {
         list.add(dfi);
       }
       return Future.value(list);
+    } on DioError catch (e) {
+      printError(info: e.toString());
+      return Future.error("no list");
+    } on Error catch (e) {
+      printError(info: e.toString());
+      return Future.error("no list");
+    }
+  }
+
+  Future<bool> createCompany(Company company) async {
+    try {
+      var res = await executor.createCompany(company, info.userData.value.id);
+      var company1 = Company.fromMap(res.data);
+      info.setMyCompany(company1);
+      return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
       return Future.error("no list");

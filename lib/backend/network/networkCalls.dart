@@ -1,5 +1,8 @@
+import 'package:ento/backend/models/Company.dart';
 import 'package:ento/backend/network/baseCalls.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../extensions/ext.dart';
 
 class NetworkCalls extends BaseCalls {
   Future<Response<dynamic>> getComapies() async {
@@ -29,6 +32,16 @@ class NetworkCalls extends BaseCalls {
 
   createNotification(Map<String, dynamic> obj) async {
     var res = await create("$notificaionEndpoint", obj);
+    return res;
+  }
+
+  Future<Response<dynamic>> createUser(User user) async {
+    var res = await create("$userEndpoint", user.toLocalUserMap());
+    return res;
+  }
+
+  createCompany(Company company, String id) async {
+    var res = await create("$companyEndpoint/$id", company.toMap());
     return res;
   }
 }

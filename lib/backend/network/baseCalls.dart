@@ -6,6 +6,7 @@ class BaseCalls {
   String companyEndpoint = "/companies";
   String notificaionEndpoint = "/notifications";
   String formsEndpoint = "/forms";
+  String userEndpoint = "/user";
 
   Future<Response> create(String endpoint, dynamic data) async {
     var response = await dio.post("$baseUrl$endpoint", data: data);
