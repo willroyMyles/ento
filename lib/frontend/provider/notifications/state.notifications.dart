@@ -1,10 +1,12 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/services/information.service.dart';
+import 'package:ento/services/mixin.service.dart';
 import 'package:ento/services/tags.service.dart';
 import 'package:get/get.dart';
 
-class PastNotificationState extends GetxController with StateMixin {
+class PastNotificationState extends GetxController
+    with StateMixin, ApiInfoMixin {
   List<NotificationModel> notifications = [];
   final ApiCall api = Get.find();
   final InformationService info = Get.find();
@@ -16,6 +18,7 @@ class PastNotificationState extends GetxController with StateMixin {
   @override
   void onInit() {
     super.onInit();
+    initialize();
   }
 
   initialize() async {
@@ -24,7 +27,7 @@ class PastNotificationState extends GetxController with StateMixin {
       print("refrehsed");
     });
 
-    bool ans = await api.getCompanyNotifications("id", 10);
+    // bool ans = await api.getCompanyNotifications("id", 10);
   }
 
   void updatedType(String element) {

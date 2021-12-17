@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/backend/network/baseCalls.dart';
 import 'package:dio/dio.dart';
@@ -35,13 +37,20 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  Future<Response<dynamic>> createUser(User user) async {
-    var res = await create("$userEndpoint", user.toLocalUserMap());
+  Future<Response<dynamic>> createUser(User user, bool isCompany) async {
+    Map<String, dynamic> map = user.toLocalUserMap(val: isCompany);
+
+    var res = await create("$userEndpoint", map);
     return res;
   }
 
   createCompany(Company company, String id) async {
     var res = await create("$companyEndpoint/$id", company.toMap());
+    return res;
+  }
+
+  getUser(User user) async {
+    var res = await findOne("$userEndpoint", user.uid);
     return res;
   }
 }

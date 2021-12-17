@@ -11,7 +11,8 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   TextEditingController password = TextEditingController();
 
   onLogin() async {
-    var res = await api.signInWithEmailAndPassword(email.text, password.text);
+    var res = await api.signInWithEmailAndPassword(
+        email.text, password.text, isCompany);
     if (res) {
       if (!isCompany) {
         Get.to(() => CompaniesView());
@@ -22,7 +23,8 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   }
 
   onRegister() async {
-    var res = await api.signUpWithEmailAndPassword(email.text, password.text);
+    var res = await api.signUpWithEmailAndPassword(
+        email.text, password.text, isCompany);
     if (res) {
       if (!isCompany) {
         Get.to(() => CompaniesView());
@@ -41,5 +43,16 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   void onInit() {
     super.onInit();
     change("", status: RxStatus.success());
+
+    info.userData.stream.listen((event) {
+      if (event != null) {
+        change("", status: RxStatus.loading());
+
+        Future.delayed(Duration(milliseconds: 300), () {
+          Get.off(
+              () => !event.isCompany! ? CompaniesView() : PastNotifications());
+        });
+      }
+    });
   }
 }

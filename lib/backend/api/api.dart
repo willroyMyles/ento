@@ -23,18 +23,23 @@ class ApiCall with AuthMixin {
 
   ApiCall() {
     getNotificationTypes();
-    this.auth.authStateChanges().listen((event) {
+    this.auth.authStateChanges().listen((event) async {
       if (event != null) {
         print("user signed in");
-        var user = UserData.fromMap(event.toLocalUserMap());
-        info.setUserData(user);
+        var u = await getLocalUser(event);
+        // var user = UserData.fromMap(event.toLocalUserMap());
+        info.setUserData(u);
+        if (u.company != null) {
+          info.setMyCompany(u.company!);
+        }
       } else {
         print("user signed out");
       }
     });
   }
 
-  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+  Future<bool> signInWithEmailAndPassword(
+      String email, String password, bool isCompany) async {
     try {
       password = password.trim();
 
@@ -49,25 +54,41 @@ class ApiCall with AuthMixin {
     }
   }
 
-  Future<bool> signUpWithEmailAndPassword(String email, String password) async {
+  Future<bool> signUpWithEmailAndPassword(
+      String email, String password, bool isCompany) async {
     try {
       password = password.trim();
-
       var res = await authSignUpWithEmailAndPassword(email, password);
-      this.createLocalUser(res.user!);
+      this.createLocalUser(res.user!, isCompany);
       return Future.value(true);
     } catch (e) {
       return Future.value(false);
     }
   }
 
-  createLocalUser(User user) async {
+  createLocalUser(User user, bool isCompany) async {
     try {
-      var res = await executor.createUser(user);
+      var res = await executor.createUser(user, isCompany);
       var userData = UserData.fromMap(res.data);
       info.setUserData(userData);
     } on DioError catch (e) {
-    } on Error catch (e) {}
+      print(e);
+    } on Error catch (e) {
+      print(e);
+    }
+  }
+
+  Future<UserData> getLocalUser(User user) async {
+    try {
+      var res = await executor.getUser(user);
+      var userData = UserData.fromMap(res.data);
+      info.setUserData(userData);
+      return Future.value(userData);
+    } on DioError catch (e) {
+      return Future.error("error");
+    } on Error catch (e) {
+      return Future.error("error");
+    }
   }
 
   Future<bool> getCompanies() async {
