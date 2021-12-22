@@ -1,5 +1,6 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/backend/models/Company.dart';
+import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/frontend/components/showQRCode.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class CompanyDetailsState extends GetxController with StateMixin {
   final info = Get.find<InformationService>();
   double appBarHeight = 50;
   bool isExpanded = false;
-
+  List<NotificationModel> list = [];
   @override
   void onInit() {
     super.onInit();
@@ -20,6 +21,7 @@ class CompanyDetailsState extends GetxController with StateMixin {
     change("", status: RxStatus.loading());
     var res = await api.getNotifications(id);
     if (res != null) {
+      list = res;
       if (res.length == 0) return change("", status: RxStatus.empty());
       change(res, status: RxStatus.success());
     } else {
@@ -39,5 +41,9 @@ class CompanyDetailsState extends GetxController with StateMixin {
           content: ShowQrCode(model: model),
         ),
         barrierColor: Colors.grey.withOpacity(.3));
+  }
+
+  void addCompany(Company model) async {
+    var res = await api.addCompay(model);
   }
 }

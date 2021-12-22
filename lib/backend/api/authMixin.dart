@@ -1,7 +1,17 @@
+import 'package:ento/backend/network/baseCalls.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 mixin AuthMixin {
   FirebaseAuth auth = FirebaseAuth.instance;
+  BaseCalls bs = BaseCalls();
+
+  void logOut() {
+    try {
+      auth.signOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<UserCredential> authSignUpWithEmailAndPassword(
       String email, String password) async {

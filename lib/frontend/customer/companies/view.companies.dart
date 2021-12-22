@@ -19,7 +19,7 @@ class CompaniesView extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           onPressed: () {
-            controller.api.getNotificationTypes();
+            controller.api.logOut();
           },
           child: Container(
             alignment: Alignment.center,

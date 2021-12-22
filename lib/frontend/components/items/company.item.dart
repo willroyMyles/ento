@@ -9,22 +9,17 @@ class CompanyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 0,
-      // shadowColor: Colors.pinkAccent.shade100,
-      type: MaterialType.card,
-      borderRadius: BorderRadius.circular(2),
-      borderOnForeground: true,
-      animationDuration: Duration(milliseconds: 1000),
-      child: GestureDetector(
-        onTap: () {
-          Get.to(() => CompaniesDetailView(model: model));
-        },
-        child: Container(
-          padding: EdgeInsets.all(25),
-          child: Column(
-            children: [Text(model.name), Text(model.email)],
-          ),
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => CompaniesDetailView(model: model));
+      },
+      child: Container(
+        padding: EdgeInsets.all(25),
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5), color: Colors.white),
+        child: Column(
+          children: [Text(model.name), Text(model.email)],
         ),
       ),
     );

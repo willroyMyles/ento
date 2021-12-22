@@ -31,6 +31,17 @@ class CompaniesDetailView extends StatelessWidget {
                       child: Icon(CupertinoIcons.qrcode),
                     ),
                   ),
+                  InkWell(
+                    onTap: () {
+                      controller.addCompany(model);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, right: 15),
+                      child: Icon(
+                        CupertinoIcons.add_circled,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SliverToBoxAdapter(
@@ -71,7 +82,36 @@ class CompaniesDetailView extends StatelessWidget {
                 ),
               ),
               if (controller.status.isSuccess)
-                SliverList(delegate: SliverChildListDelegate([Text("hello")])),
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(controller.list.first.title),
+                            Text(DateTime.fromMillisecondsSinceEpoch(
+                                    controller.list.first.date!)
+                                .toLocal()
+                                .toString()),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(controller.list.first.body ?? ""),
+                      ],
+                    ),
+                  )
+                ])),
               if (controller.status.isLoading)
                 SliverToBoxAdapter(
                   child: Container(

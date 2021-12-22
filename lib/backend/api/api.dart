@@ -6,6 +6,7 @@ import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/backend/models/UserData.dart';
 import 'package:ento/backend/network/networkCalls.dart';
+import 'package:ento/frontend/login/view.login.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:ento/services/tags.service.dart';
@@ -20,20 +21,22 @@ class ApiCall with AuthMixin {
   final info = Get.put(
     InformationService(),
   );
+  var registering = false;
 
   ApiCall() {
     getNotificationTypes();
     this.auth.authStateChanges().listen((event) async {
-      if (event != null) {
+      if (event != null && !registering) {
         print("user signed in");
+
         var u = await getLocalUser(event);
-        // var user = UserData.fromMap(event.toLocalUserMap());
         info.setUserData(u);
         if (u.company != null) {
           info.setMyCompany(u.company!);
         }
       } else {
         print("user signed out");
+        Get.off(() => LoginView());
       }
     });
   }
@@ -42,7 +45,7 @@ class ApiCall with AuthMixin {
       String email, String password, bool isCompany) async {
     try {
       password = password.trim();
-
+      registering = false;
       var res = await authSignInWithEmailAndPassword(email, password);
       if (res != null) {
         return Future.value(true);
@@ -58,6 +61,8 @@ class ApiCall with AuthMixin {
       String email, String password, bool isCompany) async {
     try {
       password = password.trim();
+      registering = true;
+
       var res = await authSignUpWithEmailAndPassword(email, password);
       this.createLocalUser(res.user!, isCompany);
       return Future.value(true);
@@ -71,6 +76,9 @@ class ApiCall with AuthMixin {
       var res = await executor.createUser(user, isCompany);
       var userData = UserData.fromMap(res.data);
       info.setUserData(userData);
+      if (userData.company != null) {
+        info.setMyCompany(userData.company!);
+      }
     } on DioError catch (e) {
       print(e);
     } on Error catch (e) {
@@ -85,8 +93,10 @@ class ApiCall with AuthMixin {
       info.setUserData(userData);
       return Future.value(userData);
     } on DioError catch (e) {
+      print(e);
       return Future.error("error");
     } on Error catch (e) {
+      print(e);
       return Future.error("error");
     }
   }
@@ -207,6 +217,19 @@ class ApiCall with AuthMixin {
     } on Error catch (e) {
       printError(info: e.toString());
       return Future.error("no list");
+    }
+  }
+
+  Future<bool> addCompay(Company model) async {
+    try {
+      var res = await executor.addCompany(model, info.userData.value.id);
+      return Future.value(true);
+    } on DioError catch (e) {
+      printError(info: e.toString());
+      return Future.error("could not subscribe company");
+    } on Error catch (e) {
+      printError(info: e.toString());
+      return Future.error("could not subscribe company");
     }
   }
 }

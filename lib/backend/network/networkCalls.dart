@@ -49,8 +49,14 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  getUser(User user) async {
+  Future<Response<dynamic>> getUser(User user) async {
     var res = await findOne("$userEndpoint", user.uid);
+    return res;
+  }
+
+  addCompany(Company company, String id) async {
+    var body = {"companyId": company.id, "userId": id};
+    var res = await dio.post("$baseUrl$subscriptionEndpoint", data: body);
     return res;
   }
 }
