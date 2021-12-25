@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/backend/network/baseCalls.dart';
 import 'package:dio/dio.dart';
@@ -77,6 +75,14 @@ class NetworkCalls extends BaseCalls {
     var body = {"token": token, "userId": id};
 
     var res = await dio.post("$baseUrl$userEndpoint/add/token", data: body);
+    return res;
+  }
+
+  addNotificationToMyNotifications(String userId, String ref) async {
+    var body = {"id": userId, "nid": ref};
+
+    var res = await dio
+        .post("$baseUrl$notificaionEndpoint/$userId/notifications/$ref");
     return res;
   }
 }

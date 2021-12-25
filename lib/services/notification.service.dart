@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging_platform_interface/src/remote_message.dart';
 import 'package:flutter/material.dart';
 
 class NotificationService {
@@ -33,13 +34,13 @@ class NotificationService {
     });
   }
 
-  createNotification() {
+  createNotification(RemoteMessage message) {
     awe.createNotification(
         content: NotificationContent(
           id: 10,
           channelKey: "test_channel",
-          title: "title of notification",
-          body: "body of notification",
+          title: message.notification?.title,
+          body: message.notification?.body,
           ticker: "what is ticker",
           color: Colors.green,
           displayOnForeground: true,

@@ -1,4 +1,5 @@
 import 'package:ento/backend/api/api.dart';
+import 'package:ento/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
@@ -79,6 +80,8 @@ class FireBaseMessagingService {
 
   void _handleMessage(RemoteMessage message) {
     print("message recieved $message");
+    api.addNotificationToMyNotifications(message.data["ref"]);
+    noti.createNotification(message);
   }
 
   void _handleMessagePressed(RemoteMessage message) {

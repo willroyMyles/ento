@@ -1,6 +1,5 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/services/information.service.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CompanyState extends GetxController with StateMixin {

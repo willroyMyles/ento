@@ -1,17 +1,12 @@
-import 'package:ento/backend/api/api.dart';
 import 'package:ento/frontend/components/items/company.item.dart';
-import 'package:ento/frontend/customer/Drawer/view.drawer.dart';
 import 'package:ento/frontend/customer/companies/state.companies.dart';
-import 'package:ento/frontend/customer/qrcode/view.QrCode.dart';
 import 'package:ento/services/fbMessaging.service.dart';
-import 'package:ento/services/notification.service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CompaniesView extends StatelessWidget {
   CompaniesView({Key? key}) : super(key: key);
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = Get.put(CompanyState());
   @override
   Widget build(BuildContext context) {

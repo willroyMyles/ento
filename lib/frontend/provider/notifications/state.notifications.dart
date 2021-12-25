@@ -2,7 +2,6 @@ import 'package:ento/backend/api/api.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:ento/services/mixin.service.dart';
-import 'package:ento/services/tags.service.dart';
 import 'package:get/get.dart';
 
 class PastNotificationState extends GetxController

@@ -1,6 +1,5 @@
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/frontend/components/manageNotifications.dart';
-import 'package:ento/frontend/customer/companies/state.companies.dart';
 import 'package:ento/frontend/customer/companies/state.companies.details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

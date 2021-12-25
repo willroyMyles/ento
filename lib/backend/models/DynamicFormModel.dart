@@ -28,7 +28,7 @@ class DynamicFormModel {
     String? title,
     String? key,
     String? placeHolder,
-    dynamic? value,
+    dynamic value,
     bool? required,
     List<String>? items,
   }) {

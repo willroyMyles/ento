@@ -1,4 +1,3 @@
-import 'package:ento/backend/enums/formType.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createForm.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:flutter/material.dart';

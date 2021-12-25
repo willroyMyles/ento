@@ -6,17 +6,13 @@ import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/backend/models/UserData.dart';
 import 'package:ento/backend/network/networkCalls.dart';
-import 'package:ento/frontend/customer/companies/view.companies.dart';
 import 'package:ento/frontend/customer/homepage/view.home.dart';
 import 'package:ento/frontend/login/view.login.dart';
-import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/frontend/provider/notifications/view.pastNotification.dart';
 import 'package:ento/services/information.service.dart';
-import 'package:ento/services/tags.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import '../extensions/ext.dart';
 
 class ApiCall with AuthMixin {
   //consider moving executor off get management
@@ -194,7 +190,7 @@ class ApiCall with AuthMixin {
   Future<bool> createNotification(Map<String, dynamic> obj) async {
     try {
       obj["companyId"] = info.myCompany.value.id;
-      var res = await executor.createNotification(obj);
+      await executor.createNotification(obj);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
@@ -240,7 +236,7 @@ class ApiCall with AuthMixin {
 
   Future<bool> addCompay(Company model) async {
     try {
-      var res = await executor.addCompany(model, info.userData.value.id);
+      await executor.addCompany(model, info.userData.value.id);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
@@ -259,6 +255,20 @@ class ApiCall with AuthMixin {
     } catch (e) {
       print(e);
       print("could not save token");
+    }
+  }
+
+  void addNotificationToMyNotifications(String? ref) async {
+    if (ref == null) return;
+    try {
+      var res = await executor.addNotificationToMyNotifications(
+          info.userData.value.id, ref);
+    } on DioError catch (e) {
+      printError(info: e.toString());
+      // return Future.error("could not subscribe company");
+    } on Error catch (e) {
+      printError(info: e.toString());
+      // return Future.error("could not subscribe company");
     }
   }
 }

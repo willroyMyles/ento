@@ -1,5 +1,4 @@
 import 'package:ento/backend/models/Company.dart';
-import 'package:ento/frontend/customer/companies/view.companies.detail.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
