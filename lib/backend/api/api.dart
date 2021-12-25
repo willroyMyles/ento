@@ -250,4 +250,15 @@ class ApiCall with AuthMixin {
       return Future.error("could not subscribe company");
     }
   }
+
+  saveToken(String? token) async {
+    try {
+      if (token == null) return;
+      await executor.saveToken(token, info.userData.value.id);
+      print("token saved");
+    } catch (e) {
+      print(e);
+      print("could not save token");
+    }
+  }
 }

@@ -13,6 +13,7 @@ class UserData {
   String? token;
   bool? isCompany = false;
   Company? company;
+  List<String>? companyIds = [];
 
   UserData({
     required this.id,
@@ -22,6 +23,7 @@ class UserData {
     this.token,
     this.isCompany,
     this.company,
+    this.companyIds = const [],
   });
 
   UserData copyWith({
@@ -58,18 +60,30 @@ class UserData {
 
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
-      id: map['id'] ?? '',
-      email: map['email'] ?? '',
-      gender: map['gender'] == null
-          ? Gender.OTHER
-          : Gender.OTHER.fromMap(map['gender']),
-      ageGroup: map['ageGroup'] == null
-          ? AgeGroup.ZERO_TO_TWENTY
-          : AgeGroup.ZERO_TO_TWENTY.fromMap(map['ageGroup']),
-      token: map['token'],
-      isCompany: map['isCompany'],
-      company: map['Company'] != null ? Company.fromMap(map['Company']) : null,
-    );
+        id: map['id'] ?? '',
+        email: map['email'] ?? '',
+        gender: map['gender'] == null
+            ? Gender.OTHER
+            : Gender.OTHER.fromMap(map['gender']),
+        ageGroup: map['ageGroup'] == null
+            ? AgeGroup.ZERO_TO_TWENTY
+            : AgeGroup.ZERO_TO_TWENTY.fromMap(map['ageGroup']),
+        token: map['token'],
+        isCompany: map['isCompany'],
+        company:
+            map['Company'] != null ? Company.fromMap(map['Company']) : null,
+        companyIds: extractList(map["subscribedCompanies"]));
+  }
+
+  static List<String> extractList(List<dynamic>? listOfMaps) {
+    if (listOfMaps == null) return [];
+
+    var maps = List<Map<String, dynamic>>.from(listOfMaps);
+    List<String> stringlist = [];
+    maps.forEach((element) {
+      stringlist.add(element.values.first as String);
+    });
+    return stringlist;
   }
 
   String toJson() => json.encode(toMap());

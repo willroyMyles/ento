@@ -114,4 +114,6 @@ class Company {
         contact.hashCode ^
         locations.hashCode;
   }
+
+  isCompanyInList(List<String> ids) => ids.contains(this.id);
 }

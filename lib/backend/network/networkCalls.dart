@@ -64,8 +64,19 @@ class NetworkCalls extends BaseCalls {
   }
 
   addCompany(Company company, String id) async {
-    var body = {"companyId": company.id, "userId": id};
-    var res = await dio.post("$baseUrl$subscriptionEndpoint", data: body);
+    var body = {
+      "companyId": company.id,
+      "userId": id,
+      "token": "this token yah now"
+    };
+    var res = await dio.post("$baseUrl$userEndpoint/add", data: body);
+    return res;
+  }
+
+  saveToken(String token, String id) async {
+    var body = {"token": token, "userId": id};
+
+    var res = await dio.post("$baseUrl$userEndpoint/add/token", data: body);
     return res;
   }
 }

@@ -8,7 +8,9 @@ import 'package:get/get.dart';
 
 class CompaniesDetailView extends StatelessWidget {
   final Company model;
-  CompaniesDetailView({Key? key, required this.model}) : super(key: key);
+  final bool subscribed;
+  CompaniesDetailView({Key? key, required this.model, this.subscribed = false})
+      : super(key: key);
   final controller = Get.put(CompanyDetailsState());
 
   @override
