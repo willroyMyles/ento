@@ -25,9 +25,10 @@ class PastNotificationState extends GetxController
     info.notifications.stream.listen((event) {
       refresh();
       print("refrehsed");
+      change("", status: RxStatus.success());
     });
 
-    // bool ans = await api.getCompanyNotifications("id", 10);
+    await api.getCompanyNotifications(offset: 0);
   }
 
   void updatedType(String element) {

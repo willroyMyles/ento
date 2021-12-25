@@ -43,16 +43,5 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   void onInit() {
     super.onInit();
     change("", status: RxStatus.success());
-
-    info.userData.stream.listen((event) {
-      if (event != null) {
-        change("", status: RxStatus.loading());
-
-        Future.delayed(Duration(milliseconds: 300), () {
-          Get.off(
-              () => !event.isCompany! ? CompaniesView() : PastNotifications());
-        });
-      }
-    });
   }
 }

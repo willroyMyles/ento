@@ -49,4 +49,22 @@ mixin AuthMixin {
       print(e);
     }
   }
+
+  // authSignInWithEmailAndPassword(String email, String password) async {
+  //   try {
+  //     var res = await bs.dio.post("${bs.baseUrl}${bs.userEndpoint}/login",
+  //         data: {"email": email, "password": password});
+  //     return Future.value(res.data);
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'weak-password') {
+  //       print('The password provided is too weak.');
+  //     } else if (e.code == 'email-already-in-use') {
+  //       print('The account already exists for that email.');
+  //     }
+
+  //     return Future.value(null);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 }

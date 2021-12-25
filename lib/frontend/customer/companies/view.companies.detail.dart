@@ -83,10 +83,10 @@ class CompaniesDetailView extends StatelessWidget {
               ),
               if (controller.status.isSuccess)
                 SliverList(
-                    delegate: SliverChildListDelegate([
-                  Container(
+                    delegate: SliverChildListDelegate(controller.list.map((e) {
+                  return Container(
                     padding: EdgeInsets.all(15),
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white),
@@ -97,9 +97,8 @@ class CompaniesDetailView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(controller.list.first.title),
-                            Text(DateTime.fromMillisecondsSinceEpoch(
-                                    controller.list.first.date!)
+                            Text(e.title),
+                            Text(DateTime.fromMillisecondsSinceEpoch(e.date!)
                                 .toLocal()
                                 .toString()),
                           ],
@@ -110,8 +109,8 @@ class CompaniesDetailView extends StatelessWidget {
                         Text(controller.list.first.body ?? ""),
                       ],
                     ),
-                  )
-                ])),
+                  );
+                }).toList())),
               if (controller.status.isLoading)
                 SliverToBoxAdapter(
                   child: Container(

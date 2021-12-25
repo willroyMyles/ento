@@ -1,3 +1,4 @@
+import 'package:ento/frontend/components/items/notification.item.dart';
 import 'package:ento/frontend/provider/drawer/view.drawer.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/frontend/provider/notifications/state.notifications.dart';
@@ -42,10 +43,24 @@ class PastNotifications extends StatelessWidget {
         child: Icon(CupertinoIcons.circle_grid_hex_fill),
       ),
       body: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          child: Text("your past notifications here"),
-        ),
+        child: GetBuilder<PastNotificationState>(builder: (state) {
+          if (controller.status.isLoading)
+            return Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            );
+          return Container(
+            alignment: Alignment.center,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                var item =
+                    controller.info.notifications.value.values.elementAt(index);
+                return NotificationItem(model: item);
+              },
+              itemCount: controller.info.notifications.value.values.length,
+            ),
+          );
+        }),
       ),
     );
   }

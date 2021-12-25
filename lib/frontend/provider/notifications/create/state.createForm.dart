@@ -28,14 +28,33 @@ class CreateFormState extends GetxController with StateMixin, ApiInfoMixin {
     change(list, status: RxStatus.success());
   }
 
-  submit() {
+  submit() async {
     Map<String, dynamic> obj = {};
     obj.putIfAbsent("type", () => this.type);
     for (var item in conts.keys) {
       obj.putIfAbsent(item.key!, () => item.value);
     }
 
-    api.createNotification(obj);
+    var res = await api.createNotification(obj);
+    if (res) {
+      Get.showSnackbar(GetSnackBar(
+        title: "Notification sent!",
+        message: "your notifiation has been created",
+        duration: Duration(milliseconds: 3000),
+        margin: EdgeInsets.all(10),
+      ));
+      conts.values.forEach((element) {
+        print(element.text);
+        element.clear();
+      });
+      refresh();
+    } else {
+      Get.showSnackbar(GetSnackBar(
+        title: "Notification not sent!",
+        message: "your notifiation has not been created",
+        duration: Duration(milliseconds: 3000),
+      ));
+    }
     print(obj);
   }
 }

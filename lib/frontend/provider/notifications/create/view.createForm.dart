@@ -54,16 +54,6 @@ class CreateFormView extends StatelessWidget {
                               ),
                             );
 
-                          // if (e.type == FormType.NUMBER)
-                          //   return Container(
-                          //     child: TextFormField(
-                          //       controller: controller.conts[e],
-                          //       decoration: InputDecoration(
-                          //         label: Text(e.placeHolder ?? ""),
-                          //       ),
-                          //     ),
-                          //   );
-
                           return Container();
                         }).toList(),
                         Spacer(),

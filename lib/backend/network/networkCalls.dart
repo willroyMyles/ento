@@ -37,6 +37,15 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
+  Future<Response<dynamic>> isUserPresent(User user) async {
+    try {
+      var res = await dio.get("$baseUrl$userEndpoint/exsist/${user.uid}");
+      return res;
+    } catch (e) {
+      throw false;
+    }
+  }
+
   Future<Response<dynamic>> createUser(User user, bool isCompany) async {
     Map<String, dynamic> map = user.toLocalUserMap(val: isCompany);
 
@@ -44,13 +53,13 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  createCompany(Company company, String id) async {
-    var res = await create("$companyEndpoint/$id", company.toMap());
+  Future<Response<dynamic>> getUser(User user) async {
+    var res = await findOne("$userEndpoint", user.uid);
     return res;
   }
 
-  Future<Response<dynamic>> getUser(User user) async {
-    var res = await findOne("$userEndpoint", user.uid);
+  createCompany(Company company, String id) async {
+    var res = await create("$companyEndpoint/$id", company.toMap());
     return res;
   }
 

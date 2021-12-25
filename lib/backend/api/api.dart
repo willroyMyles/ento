@@ -6,8 +6,11 @@ import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:ento/backend/models/UserData.dart';
 import 'package:ento/backend/network/networkCalls.dart';
+import 'package:ento/frontend/customer/companies/view.companies.dart';
+import 'package:ento/frontend/customer/homepage/view.home.dart';
 import 'package:ento/frontend/login/view.login.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
+import 'package:ento/frontend/provider/notifications/view.pastNotification.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:ento/services/tags.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,19 +29,32 @@ class ApiCall with AuthMixin {
   ApiCall() {
     getNotificationTypes();
     this.auth.authStateChanges().listen((event) async {
-      if (event != null && !registering) {
-        print("user signed in");
+      try {
+        if (event != null && !registering) {
+          print("user signed in");
 
-        var u = await getLocalUser(event);
-        info.setUserData(u);
-        if (u.company != null) {
-          info.setMyCompany(u.company!);
+          var u = await getLocalUser(event);
+          info.setUserData(u);
+          if (u.company != null) {
+            info.setMyCompany(u.company!);
+          }
+          if (u.isCompany ?? true) {
+            Get.off(() => PastNotifications());
+          } else {
+            Get.off(() => HomeView());
+          }
+        } else {
+          print("user signed out");
+          Get.off(() => LoginView());
         }
-      } else {
-        print("user signed out");
-        Get.off(() => LoginView());
-      }
+      } catch (e) {}
     });
+  }
+
+  alreadyCreated(User user) {
+    try {} catch (e) {
+      // createLocalUser(user, isCompany)
+    }
   }
 
   Future<bool> signInWithEmailAndPassword(
@@ -155,9 +171,10 @@ class ApiCall with AuthMixin {
     }
   }
 
-  getCompanyNotifications(String id, int offset) async {
+  getCompanyNotifications({int offset = 0, String? id = ""}) async {
     try {
-      var res = await executor.getNotifications(id);
+      if (id == "") id = info.myCompany.value.id;
+      var res = await executor.getNotifications(id!);
       List<NotificationModel> list = [];
       for (var item in res.data) {
         var n = NotificationModel.fromMap(item);
@@ -176,7 +193,8 @@ class ApiCall with AuthMixin {
 
   Future<bool> createNotification(Map<String, dynamic> obj) async {
     try {
-      var res = executor.createNotification(obj);
+      obj["companyId"] = info.myCompany.value.id;
+      var res = await executor.createNotification(obj);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
