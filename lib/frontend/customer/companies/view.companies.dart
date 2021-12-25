@@ -3,6 +3,7 @@ import 'package:ento/frontend/components/items/company.item.dart';
 import 'package:ento/frontend/customer/Drawer/view.drawer.dart';
 import 'package:ento/frontend/customer/companies/state.companies.dart';
 import 'package:ento/frontend/customer/qrcode/view.QrCode.dart';
+import 'package:ento/services/notification.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,12 +27,31 @@ class CompaniesView extends StatelessWidget {
   }
 
   Widget success(List<dynamic> items) {
-    return ListView.builder(
-      padding: EdgeInsets.all(15),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return CompanyItem(model: items.elementAt(index));
-      },
+    return Container(
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.all(15),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return CompanyItem(model: items.elementAt(index));
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: TextButton(
+              onPressed: () {
+                noti.createNotification();
+              },
+              child: Text("hello"),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black)),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
