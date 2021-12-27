@@ -10,7 +10,7 @@ class FireBaseMessagingService {
   // SharedPreferences _prefs;
 
   FireBaseMessagingService() {
-    initialize();
+    // initialize();
   }
 
   initialize() async {
@@ -99,6 +99,7 @@ class FireBaseMessagingService {
 
   void justPrint() {
     print("pressed");
+    initialize();
   }
 }
 

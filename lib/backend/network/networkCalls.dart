@@ -15,13 +15,18 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  getNotificationTypes() async {
-    var res = await dio.get("$baseUrl$notificaionEndpoint/types");
+  Future<Response<dynamic>> getUserNotifications(String id) async {
+    var res = await dio.get("$baseUrl$userEndpoint/$id$notificaionEndpoint");
     return res;
   }
 
   getCompanyNotifications(String id, int offset) async {
     var res = await dio.get("$baseUrl$companyEndpoint/$id$notificaionEndpoint");
+    return res;
+  }
+
+  getNotificationTypes() async {
+    var res = await dio.get("$baseUrl$notificaionEndpoint/types");
     return res;
   }
 
@@ -51,8 +56,8 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  Future<Response<dynamic>> getUser(User user) async {
-    var res = await findOne("$userEndpoint", user.uid);
+  Future<Response<dynamic>> getUser(String userId) async {
+    var res = await findOne("$userEndpoint", userId);
     return res;
   }
 
@@ -79,8 +84,6 @@ class NetworkCalls extends BaseCalls {
   }
 
   addNotificationToMyNotifications(String userId, String ref) async {
-    var body = {"id": userId, "nid": ref};
-
     var res = await dio
         .post("$baseUrl$notificaionEndpoint/$userId/notifications/$ref");
     return res;

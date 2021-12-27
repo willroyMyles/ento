@@ -9,12 +9,12 @@ import 'package:get/get.dart';
 class PastNotifications extends StatelessWidget {
   PastNotifications({Key? key}) : super(key: key);
   final controller = Get.put(PastNotificationState());
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       drawer: Drawer(
         child: DrawerViewProvider(),
       ),
@@ -25,7 +25,7 @@ class PastNotifications extends StatelessWidget {
           Container(
             child: TextButton.icon(
                 onPressed: () {
-                  _scaffoldKey.currentState?.openDrawer();
+                  // _scaffoldKey.currentState?.openDrawer();
                 },
                 icon: Icon(
                   CupertinoIcons.settings,
@@ -49,17 +49,29 @@ class PastNotifications extends StatelessWidget {
               alignment: Alignment.center,
               child: CircularProgressIndicator(),
             );
-          return Container(
-            alignment: Alignment.center,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                var item =
-                    controller.info.notifications.value.values.elementAt(index);
-                return NotificationItem(model: item);
-              },
-              itemCount: controller.info.notifications.value.values.length,
-            ),
-          );
+          if (controller.status.isEmpty)
+            return Container(
+              child: Text("empty"),
+            );
+          if (controller.status.isSuccess)
+            return Container(
+              alignment: Alignment.center,
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  controller.callGetNotifications();
+                },
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    var item = controller.info.notifications.value.values
+                        .elementAt(index);
+                    return NotificationItem(model: item);
+                  },
+                  itemCount: controller.info.notifications.value.values.length,
+                ),
+              ),
+            );
+
+          return Container(child: Text("somu"));
         }),
       ),
     );

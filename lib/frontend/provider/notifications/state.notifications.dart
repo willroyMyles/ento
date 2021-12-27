@@ -30,6 +30,11 @@ class PastNotificationState extends GetxController
     await api.getCompanyNotifications(offset: 0);
   }
 
+  Future callGetNotifications() async {
+    await api.getCompanyNotifications(offset: 0);
+    return Future.value();
+  }
+
   void updatedType(String element) {
     type = element;
     refresh();

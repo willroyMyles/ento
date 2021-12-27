@@ -13,25 +13,25 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   onLogin() async {
     var res = await api.signInWithEmailAndPassword(
         email.text, password.text, isCompany);
-    if (res) {
-      if (!isCompany) {
-        Get.to(() => CompaniesView());
-      } else {
-        Get.to(() => PastNotifications());
-      }
-    }
+    // if (res) {
+    //   if (!isCompany) {
+    //     Get.to(() => CompaniesView());
+    //   } else {
+    //     Get.to(() => PastNotifications());
+    //   }
+    // }
   }
 
   onRegister() async {
     var res = await api.signUpWithEmailAndPassword(
         email.text, password.text, isCompany);
-    if (res) {
-      if (!isCompany) {
-        Get.to(() => CompaniesView());
-      } else {
-        Get.to(() => ConfigureCompanyView());
-      }
-    }
+    // if (res) {
+    //   if (!isCompany) {
+    //     Get.to(() => CompaniesView());
+    //   } else {
+    //     Get.to(() => ConfigureCompanyView());
+    //   }
+    // }
   }
 
   toggleIsCompany() {

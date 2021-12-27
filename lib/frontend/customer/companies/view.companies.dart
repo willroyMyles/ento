@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 class CompaniesView extends StatelessWidget {
   CompaniesView({Key? key}) : super(key: key);
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = Get.put(CompanyState());
   @override
   Widget build(BuildContext context) {

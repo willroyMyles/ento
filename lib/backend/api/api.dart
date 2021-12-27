@@ -10,6 +10,7 @@ import 'package:ento/frontend/customer/homepage/view.home.dart';
 import 'package:ento/frontend/login/view.login.dart';
 import 'package:ento/frontend/provider/notifications/view.pastNotification.dart';
 import 'package:ento/services/information.service.dart';
+import 'package:ento/services/storage.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -24,32 +25,46 @@ class ApiCall with AuthMixin {
 
   ApiCall() {
     getNotificationTypes();
-    this.auth.authStateChanges().listen((event) async {
-      try {
-        if (event != null && !registering) {
-          print("user signed in");
+    getUserFromStorage();
+    // this.auth.authStateChanges().listen((event) async {
+    //   try {
+    //     if (event != null) {
+    //       print("user signed in");
 
-          var u = await getLocalUser(event);
-          info.setUserData(u);
-          if (u.company != null) {
-            info.setMyCompany(u.company!);
-          }
-          if (u.isCompany ?? true) {
-            Get.off(() => PastNotifications());
-          } else {
-            Get.off(() => HomeView());
-          }
-        } else {
-          print("user signed out");
-          Get.off(() => LoginView());
-        }
-      } catch (e) {}
-    });
+    //       // var u = await getLocalUser(event);
+    //       // info.setUserData(u);
+    //       // if (u.company != null) {
+    //       //   info.setMyCompany(u.company!);
+    //       // }
+    //       // if (u.isCompany ?? true) {
+    //       //   Get.off(() => PastNotifications());
+    //       // } else {
+    //       //   Get.off(() => HomeView());
+    //       // }
+    //     } else {
+    //       print("user signed out");
+    //       // info.setUserData(null);
+    //       // Get.off(() => LoginView());
+    //     }
+    //   } catch (e) {}
+    // });
   }
 
-  alreadyCreated(User user) {
-    try {} catch (e) {
-      // createLocalUser(user, isCompany)
+  getUserFromStorage() async {
+    try {
+      var userId = storeage.store.read("userId");
+
+      if (userId == null) {
+        print("no user found in storage");
+        info.setUserData(null);
+        return;
+      }
+
+      await getLocalUser(userId);
+    } catch (e) {
+      print("error in getUserFromStorage $e");
+      // storeage.store.remove("uid");
+      info.setUserData(null);
     }
   }
 
@@ -75,8 +90,11 @@ class ApiCall with AuthMixin {
       password = password.trim();
       registering = true;
 
-      var res = await authSignUpWithEmailAndPassword(email, password);
-      this.createLocalUser(res.user!, isCompany);
+      var res = await authSignUpWithEmailAndPassword(email, password,
+          isCompany: isCompany);
+      var data = UserData.fromMap(res);
+      info.setUserData(data);
+      storeage.store.write("userId", data.id);
       return Future.value(true);
     } catch (e) {
       return Future.value(false);
@@ -98,9 +116,9 @@ class ApiCall with AuthMixin {
     }
   }
 
-  Future<UserData> getLocalUser(User user) async {
+  Future<UserData> getLocalUser(String userId) async {
     try {
-      var res = await executor.getUser(user);
+      var res = await executor.getUser(userId);
       var userData = UserData.fromMap(res.data);
       info.setUserData(userData);
       return Future.value(userData);
@@ -150,6 +168,31 @@ class ApiCall with AuthMixin {
       printError(info: e.toString());
       return Future.error("no list");
     }
+  }
+
+  Future<List<NotificationModel>> getUserNotifications() async {
+    try {
+      var res = await executor.getUserNotifications(info.userData.value.id);
+      var list = transformNotifications(res.data["notifications"]);
+      info.setNotifications(list);
+      return Future.value(list);
+    } on DioError catch (e) {
+      printError(info: e.toString());
+      return Future.error("no list");
+    } on Error catch (e) {
+      printError(info: e.toString());
+      return Future.error("no list");
+    }
+  }
+
+  transformNotifications(dynamic data) {
+    List<NotificationModel> list = [];
+    for (var item in data) {
+      var n = NotificationModel.fromMap(item);
+      list.add(n);
+    }
+
+    return list;
   }
 
   FutureOr<void> getNotificationTypes() async {

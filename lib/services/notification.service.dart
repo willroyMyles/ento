@@ -9,11 +9,13 @@ class NotificationService {
         null,
         [
           NotificationChannel(
-            channelKey: "test_channel",
-            channelName: "test channel",
-            channelDescription: "just using to test notifications",
-            defaultColor: Colors.green,
-          ),
+              channelKey: "test_channel",
+              channelName: "test channel",
+              channelDescription: "just using to test notifications",
+              defaultColor: Colors.green,
+              importance: NotificationImportance.High,
+              criticalAlerts: true,
+              channelShowBadge: true),
         ],
         debug: true);
     listenToNotifications();
@@ -46,6 +48,7 @@ class NotificationService {
           displayOnForeground: true,
           displayOnBackground: true,
           summary: "summary of message",
+          backgroundColor: Colors.yellow,
         ),
         actionButtons: [
           NotificationActionButton(
