@@ -42,11 +42,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: themeService.lightTheme,
-      routes: {
-        "/": (context) => MainPage(
-              isLoggedIn: loggedIn,
-            )
-      },
+      routes: {"/": (context) => LoginView()},
     );
   }
 
@@ -59,7 +55,6 @@ class _MyAppState extends State<MyApp> {
       print("this is event $event");
       setState(() {
         loading = false;
-        loggedIn = event;
       });
     });
   }

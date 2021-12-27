@@ -1,4 +1,5 @@
 import 'package:ento/frontend/customer/companies/view.companies.dart';
+import 'package:ento/frontend/login/view.login.dart';
 import 'package:ento/frontend/provider/configure%20company/view.configureCompany.dart';
 import 'package:ento/frontend/provider/notifications/view.pastNotification.dart';
 import 'package:ento/services/mixin.service.dart';
@@ -43,5 +44,26 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
   void onInit() {
     super.onInit();
     change("", status: RxStatus.success());
+    if (info.isSignedIn.value) {
+      jumpToPage(true);
+    }
+    info.isSignedIn.stream.listen((event) {
+      this.jumpToPage(event);
+    });
+  }
+
+  jumpToPage(bool value) {
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (value) {
+        if (info.userData.value.isCompany != null &&
+            info.userData.value.isCompany!) {
+          Get.off(() => ConfigureCompanyView());
+        } else {
+          Get.off(() => CompaniesView());
+        }
+      } else {
+        Get.off(() => LoginView());
+      }
+    });
   }
 }

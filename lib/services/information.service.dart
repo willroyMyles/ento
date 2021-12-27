@@ -13,9 +13,9 @@ class InformationService {
 
   setUserData(UserData? data) {
     isSignedIn.value = data != null;
-    Future.delayed(Duration(milliseconds: 200), () {
-      isSignedIn.refresh();
-    });
+    // Future.delayed(Duration(milliseconds: 200), () {
+    //   isSignedIn.refresh();
+    // });
     if (data == null) return;
     userData.value = data;
     userData.refresh();

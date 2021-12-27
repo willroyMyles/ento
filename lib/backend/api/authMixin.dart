@@ -1,15 +1,20 @@
 import 'package:ento/backend/network/baseCalls.dart';
+import 'package:ento/services/information.service.dart';
+import 'package:ento/services/mixin.service.dart';
 import 'package:ento/services/storage.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 mixin AuthMixin {
   FirebaseAuth auth = FirebaseAuth.instance;
   BaseCalls bs = BaseCalls();
+  final info = Get.find<InformationService>();
 
   void logOut() async {
     try {
       await auth.signOut();
       storeage.store.remove("uid");
+      info.setUserData(null);
     } catch (e) {
       print(e);
     }
@@ -39,7 +44,8 @@ mixin AuthMixin {
       {isCompany = false}) async {
     try {
       var res = await bs.dio.post("${bs.baseUrl}${bs.userEndpoint}/register",
-          data: {"email": email, "password": password, "isCompany": isCompany});
+          data: {"email": email, "password": password, "isCompany": isCompany},
+          queryParameters: {"isCompany": isCompany});
       return Future.value(res.data);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
