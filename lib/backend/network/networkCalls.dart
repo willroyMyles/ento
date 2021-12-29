@@ -35,7 +35,7 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  createNotification(Map<String, dynamic> obj) async {
+  Future<Response<dynamic>> createNotification(Map<String, dynamic> obj) async {
     var res = await create("$notificaionEndpoint", obj);
     return res;
   }

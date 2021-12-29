@@ -234,6 +234,8 @@ class ApiCall with AuthMixin {
     try {
       obj["companyId"] = info.myCompany.value.id;
       var res = await executor.createNotification(obj);
+      NotificationModel model = NotificationModel.fromMap(res.data);
+      info.updateNotifications(model);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
