@@ -50,14 +50,15 @@ class NotificationModel {
   }
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
-    return NotificationModel(
+    var n = NotificationModel(
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       body: map['body'],
       picture: map['picture'],
-      date: map['date']?.toInt() ?? 0,
+      date: DateTime.tryParse(map['createdAt'])?.millisecondsSinceEpoch ?? 0,
       type: map['type'],
     );
+    return n;
   }
 
   String toJson() => json.encode(toMap());

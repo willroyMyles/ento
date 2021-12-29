@@ -1,5 +1,6 @@
 import 'package:ento/backend/models/NotificationModel.dart';
 import 'package:flutter/material.dart';
+import 'package:ento/backend/extensions/ext.dart';
 
 class NotificationItem extends StatelessWidget {
   final NotificationModel model;
@@ -20,9 +21,7 @@ class NotificationItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(model.title),
-              Text(DateTime.fromMillisecondsSinceEpoch(model.date!)
-                  .toLocal()
-                  .toString()),
+              Text(model.date.toString()).date(),
             ],
           ),
           SizedBox(
