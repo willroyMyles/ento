@@ -71,7 +71,7 @@ class UserData {
         token: map['token'],
         isCompany: map['isCompany'],
         company:
-            map['Company'] != null ? Company.fromMap(map['Company']) : null,
+            map['company'] != null ? Company.fromMap(map['company']) : null,
         companyIds: extractList(map["subscribedCompanies"]));
   }
 

@@ -5,38 +5,53 @@ import 'package:get/get.dart';
 
 class CreateFormView extends StatelessWidget {
   final String formType;
-  const CreateFormView({Key? key, required this.formType}) : super(key: key);
+  final Rx obj;
+  final Function? submit;
+  final Function? setSubmit;
+  CreateFormView({
+    Key? key,
+    required this.formType,
+    required this.obj,
+    required this.submit,
+    this.setSubmit,
+  }) : super(key: key);
+  final controller = Get.put(CreateFormState());
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CreateFormState(formType));
+    controller.formAndStatus(formType, submit, setSubmit);
 
     return Container(
       child: GetBuilder<CreateFormState>(
-        init: controller,
-        builder: (state) {
+        builder: (context) {
           if (controller.status.isLoading)
             return Container(
               child: Text("loading"),
             );
 
           if (controller.status.isSuccess)
-            return SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.all(15),
-                padding: EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                constraints:
-                    BoxConstraints(minHeight: 300, maxHeight: Get.height - 300),
-                alignment: Alignment.center,
-                child: SizedBox.expand(
+            return Container(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: Get.height,
+                  width: Get.width,
+                  margin: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(25),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  constraints: BoxConstraints(
+                      minHeight: 300, maxHeight: Get.height * .65),
+                  alignment: Alignment.center,
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ...controller.conts.keys.map((e) {
+                    children: [
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: controller.conts.length,
+                        itemBuilder: (context, index) {
+                          var e = controller.conts.keys.elementAt(index);
                           if (e.type == FormType.TEXT)
                             return Container(
                               padding: EdgeInsets.symmetric(vertical: 15),
@@ -53,15 +68,22 @@ class CreateFormView extends StatelessWidget {
                               ),
                             );
 
+                          if (e.type == FormType.PICTURE)
+                            return Container(
+                              height: 300,
+                              width: Get.width,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade700,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text("picture"),
+                            );
+
                           return Container();
-                        }).toList(),
-                        Spacer(),
-                        TextButton(
-                            onPressed: () {
-                              controller.submit();
-                            },
-                            child: Text("submit".toUpperCase()))
-                      ]),
+                        },
+                      )),
+                    ],
+                  ),
                 ),
               ),
             );

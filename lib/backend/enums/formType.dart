@@ -1,7 +1,8 @@
 enum FormType {
   TEXT,
-  RADIO,
   NUMBER,
+  PICTURE,
+  RADIO,
   SWITCH,
 }
 

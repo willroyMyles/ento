@@ -9,6 +9,7 @@ class PastNotificationState extends GetxController
   List<NotificationModel> notifications = [];
   final ApiCall api = Get.find();
   final InformationService info = Get.find();
+  RxInt int = 1.obs;
 
   NotificationModel model = NotificationModel.empty();
 
@@ -18,6 +19,17 @@ class PastNotificationState extends GetxController
   void onInit() {
     super.onInit();
     initialize();
+  }
+
+  Function? submit;
+
+  setSubmit(Function fun) {
+    print("setted");
+    submit = fun;
+  }
+
+  onSubmit() {
+    submit!();
   }
 
   initialize() async {
@@ -38,6 +50,6 @@ class PastNotificationState extends GetxController
   void updatedType(String element) {
     type = element;
     refresh();
-    api.getForm(element);
+    // api.getForm(element);
   }
 }

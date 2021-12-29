@@ -57,7 +57,9 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
       if (value) {
         if (info.userData.value.isCompany != null &&
             info.userData.value.isCompany!) {
-          Get.off(() => ConfigureCompanyView());
+          Get.off(() => ConfigureCompanyView(
+                shouldSkip: info.userData.value.company != null,
+              ));
         } else {
           Get.off(() => CompaniesView());
         }

@@ -19,10 +19,12 @@ class InformationService {
     if (data == null) return;
     userData.value = data;
     userData.refresh();
+    if (data.isCompany ?? false) setMyCompany(data.company);
     print("user data refreshed $userData");
   }
 
-  setMyCompany(Company company) {
+  setMyCompany(Company? company) {
+    if (company == null) return;
     myCompany.value = company;
     myCompany.refresh();
   }
@@ -30,7 +32,8 @@ class InformationService {
   setCompanies(List<dynamic> list) => companies.set(list);
   updateCompanies(Company model) => companies.updateModel(model);
   setNotifications(List<dynamic> list) => notifications.set(list);
-  updateNotifications(Company model) => notifications.updateModel(model);
+  updateNotifications(NotificationModel model) =>
+      notifications.updateModel(model);
   setNotificationTypes(List<String> list) => notificationTypes.value = list;
   updateNotificationTypes(String type) => notificationTypes
     ..add(type)

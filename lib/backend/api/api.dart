@@ -233,14 +233,14 @@ class ApiCall with AuthMixin {
   Future<bool> createNotification(Map<String, dynamic> obj) async {
     try {
       obj["companyId"] = info.myCompany.value.id;
-      await executor.createNotification(obj);
+      var res = await executor.createNotification(obj);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
-      return Future.error("no list");
+      return Future.value(false);
     } on Error catch (e) {
       printError(info: e.toString());
-      return Future.error("no list");
+      return Future.value(false);
     }
   }
 

@@ -16,6 +16,7 @@ class ConfigureCompanyState extends GetxController
   File? logoFile;
   File? backdropFile;
   List<CompanyLocation> locations = [];
+  bool shouldSKip = false;
 
   onSubmit() async {
     Company company = Company.empty();
@@ -31,5 +32,19 @@ class ConfigureCompanyState extends GetxController
     if (res) {
       Get.off(() => PastNotifications());
     }
+  }
+
+  void skip() {
+    Get.off(() => PastNotifications());
+  }
+
+  void setShouldSkip(bool shouldSkip) {
+    this.shouldSKip = shouldSkip;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (this.shouldSKip) skip();
   }
 }
