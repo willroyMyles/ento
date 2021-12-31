@@ -1,5 +1,6 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/services/notification.service.dart';
+import 'package:ento/services/storage.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
@@ -93,9 +94,15 @@ class FireBaseMessagingService {
 
   void getToken() async {
     var token = await messaging.getToken();
+
     // infoService.updateTokenId(token);
     // apiS.saveToken(token);
-    api.saveToken(token);
+    var confirmToken = storeage.store.read<String>("fbToken");
+
+    if (confirmToken != token) {
+      api.saveToken(token);
+      storeage.store.write("fbToken", token);
+    }
     print(token);
   }
 
