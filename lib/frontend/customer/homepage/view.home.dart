@@ -30,14 +30,15 @@ class HomeView extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 10),
           sliver: SliverAppBar(
             floating: true,
-            flexibleSpace: FlexibleSpaceBar(
-              stretchModes: [StretchMode.fadeTitle],
-              background: Image.network(
-                  "http://clipart-library.com/images/8czraEpKi.jpg"),
-            ),
-            collapsedHeight: 50,
-            toolbarHeight: 49,
-            expandedHeight: 250,
+            pinned: true,
+            // flexibleSpace: FlexibleSpaceBar(
+            //   stretchModes: [StretchMode.fadeTitle],
+            //   background: Image.network(
+            //       "http://clipart-library.com/images/8czraEpKi.jpg"),
+            // ),
+            // collapsedHeight: 50,
+            // toolbarHeight: 49,
+            // expandedHeight: 250,
             title: Text("Welcome back!"),
             leading: Container(
               child: TextButton.icon(

@@ -13,21 +13,30 @@ class NotificationItem extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(model.title),
-              Text(model.date.toString()).date(),
+              SizedBox(
+                height: 4,
+              ),
+              Text(model.body ?? ""),
             ],
           ),
+          Spacer(),
+          if (model.picture != null)
+            Icon(
+              Icons.attach_file,
+              color: Colors.grey.withOpacity(.7),
+            ),
           SizedBox(
-            height: 10,
+            width: 10,
           ),
-          Text(model.body ?? ""),
+          Text(model.date.toString()).date(),
         ],
       ),
     );

@@ -23,7 +23,10 @@ class CustomerNotificationView extends StatelessWidget {
             ),
             ...controller.info.notifications.value.values.map((e) {
               return NotificationCustomerItem(model: e);
-            }).toList()
+            }).toList(),
+            SizedBox(
+              height: 560,
+            )
           ],
         ),
       );

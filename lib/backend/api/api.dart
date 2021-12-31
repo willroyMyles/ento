@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ento/backend/api/authMixin.dart';
+import 'package:ento/backend/api/storageMixin.dart';
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/backend/models/NotificationModel.dart';
@@ -15,7 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 
-class ApiCall with AuthMixin {
+class ApiCall with AuthMixin, StorageMixin {
   //consider moving executor off get management
   final executor = Get.put(NetworkCalls());
   final info = Get.put(
@@ -236,6 +237,11 @@ class ApiCall with AuthMixin {
   Future<bool> createNotification(Map<String, dynamic> obj) async {
     try {
       obj["companyId"] = info.myCompany.value.id;
+      String? picture;
+      if (obj.containsKey("picture")) {
+        picture = await uploadPictureToBucket(obj["picture"]);
+        obj["picture"] = picture;
+      }
       var res = await executor.createNotification(obj);
       NotificationModel model = NotificationModel.fromMap(res.data);
       info.updateNotifications(model);
@@ -246,6 +252,16 @@ class ApiCall with AuthMixin {
     } on Error catch (e) {
       printError(info: e.toString());
       return Future.value(false);
+    }
+  }
+
+  Future<String?> uploadPictureToBucket(String? path) {
+    if (path == null) return Future.value(null);
+    try {
+      return uploadPicture(path, info.userData.value.company!.id);
+    } catch (e) {
+      print(e);
+      return Future.error("could not upload picture");
     }
   }
 

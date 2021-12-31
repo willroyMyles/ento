@@ -39,7 +39,7 @@ class CompaniesView extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(.1)),
+            decoration: BoxDecoration(color: Colors.grey.withOpacity(.0)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -52,7 +52,7 @@ class CompaniesView extends StatelessWidget {
           ),
           Container(
             height: 160,
-            decoration: BoxDecoration(color: Colors.grey.withOpacity(.2)),
+            decoration: BoxDecoration(color: Colors.grey.withOpacity(.15)),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.all(15),
