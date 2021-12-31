@@ -1,4 +1,5 @@
 import 'package:ento/frontend/customer/companies/view.companies.dart';
+import 'package:ento/frontend/customer/homepage/view.home.dart';
 import 'package:ento/frontend/login/view.login.dart';
 import 'package:ento/frontend/provider/configure%20company/view.configureCompany.dart';
 import 'package:ento/frontend/provider/notifications/view.pastNotification.dart';
@@ -61,7 +62,7 @@ class LoginState extends GetxController with StateMixin, ApiInfoMixin {
                 shouldSkip: info.userData.value.company != null,
               ));
         } else {
-          Get.off(() => CompaniesView());
+          Get.off(() => HomeView());
         }
       } else {
         Get.off(() => LoginView());

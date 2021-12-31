@@ -7,18 +7,19 @@ class NotificationModel {
   String? picture;
   int? date = DateTime.now().millisecondsSinceEpoch;
   String? type;
+  String? name;
 
   factory NotificationModel.empty() =>
       NotificationModel(id: "", title: "title");
 
-  NotificationModel({
-    required this.id,
-    required this.title,
-    this.body,
-    this.picture,
-    this.date,
-    this.type,
-  });
+  NotificationModel(
+      {required this.id,
+      required this.title,
+      this.body,
+      this.picture,
+      this.date,
+      this.type,
+      this.name});
 
   NotificationModel copyWith({
     String? id,
@@ -51,13 +52,13 @@ class NotificationModel {
 
   factory NotificationModel.fromMap(Map<String, dynamic> map) {
     var n = NotificationModel(
-      id: map['id'] ?? '',
-      title: map['title'] ?? '',
-      body: map['body'],
-      picture: map['picture'],
-      date: DateTime.tryParse(map['createdAt'])?.millisecondsSinceEpoch ?? 0,
-      type: map['type'],
-    );
+        id: map['id'] ?? '',
+        title: map['title'] ?? '',
+        body: map['body'],
+        picture: map['picture'],
+        date: DateTime.tryParse(map['createdAt'])?.millisecondsSinceEpoch ?? 0,
+        type: map['type'],
+        name: map["Company"]?["name"]);
     return n;
   }
 

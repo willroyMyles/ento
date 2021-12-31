@@ -3,6 +3,12 @@ import 'package:ento/services/notification.service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
+Future<void> _handleFirebaeBackgroundMessage(RemoteMessage message) async {
+  print("background message recieved");
+  ApiCall calls = ApiCall();
+  calls.addNotificationToMyNotifications(message.data["ref"]);
+}
+
 class FireBaseMessagingService {
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
   final String androidNotification = "AndroidNotification";
@@ -54,6 +60,7 @@ class FireBaseMessagingService {
   }
 
   Future<void> setupInteractedMessage() async {
+    messaging.setAutoInitEnabled(true);
     // Get any messages which caused the application to open from
     // a terminated state.
     RemoteMessage? initialMessage = await messaging.getInitialMessage();
@@ -69,13 +76,7 @@ class FireBaseMessagingService {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessagePressed);
     FirebaseMessaging.onMessage.listen(_handleMessage);
 
-    // FirebaseMessaging.onBackgroundMessage((message) {
-    //   if (message != null) {
-    //     print(message);
-    //     print(message.data);
-    //   }
-    //   return Future.value();
-    // });
+    FirebaseMessaging?.onBackgroundMessage(_handleFirebaeBackgroundMessage);
   }
 
   void _handleMessage(RemoteMessage message) {
@@ -86,6 +87,7 @@ class FireBaseMessagingService {
 
   void _handleMessagePressed(RemoteMessage message) {
     print("message recieved $message");
+    api.addNotificationToMyNotifications(message.data["ref"]);
     // Navigator.of(Get.context).pushNamed(message.data["ref"]);
   }
 

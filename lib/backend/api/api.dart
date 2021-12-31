@@ -75,6 +75,9 @@ class ApiCall with AuthMixin {
       registering = false;
       var res = await authSignInWithEmailAndPassword(email, password);
       if (res != null) {
+        var data = UserData.fromMap(res);
+        info.setUserData(data);
+        storeage.store.write("userId", data.id);
         return Future.value(true);
       } else {
         return Future.value(false);
@@ -282,6 +285,8 @@ class ApiCall with AuthMixin {
   Future<bool> addCompay(Company model) async {
     try {
       await executor.addCompany(model, info.userData.value.id);
+      info.userData.value.companyIds?.add(model.id);
+      info.userData.refresh();
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
@@ -314,6 +319,21 @@ class ApiCall with AuthMixin {
     } on Error catch (e) {
       printError(info: e.toString());
       // return Future.error("could not subscribe company");
+    }
+  }
+
+  removeCompay(Company model) async {
+    try {
+      // await executor.removeCompany(model, info.userData.value.id);
+      info.userData.value.companyIds?.remove(model.id);
+      info.userData.refresh();
+      return Future.value(true);
+    } on DioError catch (e) {
+      printError(info: e.toString());
+      return Future.error("could not subscribe company");
+    } on Error catch (e) {
+      printError(info: e.toString());
+      return Future.error("could not subscribe company");
     }
   }
 }

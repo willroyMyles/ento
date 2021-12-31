@@ -5,6 +5,7 @@ import 'package:ento/backend/models/DynamicFormModel.dart';
 import 'package:ento/services/mixin.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:images_picker/images_picker.dart';
 
 class CreateFormState extends GetxController with StateMixin, ApiInfoMixin {
   List<DynamicFormModel> list = [];
@@ -46,8 +47,8 @@ class CreateFormState extends GetxController with StateMixin, ApiInfoMixin {
         margin: EdgeInsets.all(10),
       ));
       conts.values.forEach((element) {
-        print(element.text);
-        element.clear();
+        // print(element.text ?? "");
+        if (element is TextEditingController) element.clear();
       });
       refresh();
     } else {
@@ -68,5 +69,19 @@ class CreateFormState extends GetxController with StateMixin, ApiInfoMixin {
     initialize(formType);
     if (submit == null) submit = this.submit;
     if (setSubmit != null) setSubmit(this.submit);
+  }
+
+  void pickImage(DynamicFormModel e) async {
+    List<Media>? res = await ImagesPicker.pick(
+        count: 1,
+        maxSize: 500,
+        quality: .8,
+        language: Language.English,
+        pickType: PickType.image);
+    if (res != null) {
+      var media = res.first;
+      e.value = media.path;
+      refresh();
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ento/backend/models/Company.dart';
+import 'package:ento/frontend/components/items/notification.item.dart';
 import 'package:ento/frontend/components/manageNotifications.dart';
 import 'package:ento/frontend/customer/companies/state.companies.details.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,12 +35,17 @@ class CompaniesDetailView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      controller.addCompany(model);
+                      if (!subscribed)
+                        controller.addCompany(model);
+                      else
+                        controller.removeCompany(model);
                     },
                     child: Container(
                       padding: EdgeInsets.only(left: 20, right: 15),
                       child: Icon(
-                        CupertinoIcons.add_circled,
+                        subscribed
+                            ? CupertinoIcons.clear_circled
+                            : CupertinoIcons.add_circled,
                       ),
                     ),
                   ),
@@ -85,32 +91,7 @@ class CompaniesDetailView extends StatelessWidget {
               if (controller.status.isSuccess)
                 SliverList(
                     delegate: SliverChildListDelegate(controller.list.map((e) {
-                  return Container(
-                    padding: EdgeInsets.all(15),
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(e.title),
-                            Text(DateTime.fromMillisecondsSinceEpoch(e.date!)
-                                .toLocal()
-                                .toString()),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(controller.list.first.body ?? ""),
-                      ],
-                    ),
-                  );
+                  return NotificationItem(model: e);
                 }).toList())),
               if (controller.status.isLoading)
                 SliverToBoxAdapter(

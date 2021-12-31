@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ento/backend/enums/formType.dart';
 import 'package:ento/frontend/provider/notifications/create/state.createForm.dart';
 import 'package:flutter/material.dart';
@@ -69,14 +71,25 @@ class CreateFormView extends StatelessWidget {
                             );
 
                           if (e.type == FormType.PICTURE)
-                            return Container(
-                              height: 300,
-                              width: Get.width,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade700,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text("picture"),
+                            return InkWell(
+                              onTap: () {
+                                controller.pickImage(e);
+                              },
+                              child: Container(
+                                height: 300,
+                                width: Get.width,
+                                clipBehavior: Clip.antiAlias,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: Image.file(File(e.value ?? ""))
+                                            .image,
+                                        fit: BoxFit.cover,
+                                        repeat: ImageRepeat.noRepeat),
+                                    color: Colors.grey.withOpacity(.3),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Text("picture"),
+                              ),
                             );
 
                           return Container();

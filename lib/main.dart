@@ -51,6 +51,7 @@ class _MyAppState extends State<MyApp> {
     await storeage.init();
     Get.put(ApiCall());
     var info = Get.find<InformationService>();
+
     info.isSignedIn.stream.listen((event) {
       print("this is event $event");
       setState(() {

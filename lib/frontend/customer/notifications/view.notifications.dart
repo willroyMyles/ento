@@ -1,4 +1,5 @@
 import 'package:ento/frontend/components/items/notification.item.dart';
+import 'package:ento/frontend/components/items/notificationCustomer.item.dart';
 import 'package:ento/frontend/customer/notifications/state.notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,9 +14,17 @@ class CustomerNotificationView extends StatelessWidget {
         child: controller.obx((state) {
       return Container(
         child: Column(
-          children: controller.info.notifications.value.values.map((e) {
-            return NotificationItem(model: e);
-          }).toList(),
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.only(top: 15),
+              child: Text("Notifications"),
+            ),
+            ...controller.info.notifications.value.values.map((e) {
+              return NotificationCustomerItem(model: e);
+            }).toList()
+          ],
         ),
       );
     },

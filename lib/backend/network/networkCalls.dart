@@ -88,4 +88,14 @@ class NetworkCalls extends BaseCalls {
         .post("$baseUrl$notificaionEndpoint/$userId/notifications/$ref");
     return res;
   }
+
+  removeCompany(Company model, String id) async {
+    var body = {
+      "companyId": model.id,
+      "userId": id,
+      "token": "this token yah now"
+    };
+    var res = await dio.post("$baseUrl$userEndpoint/remove", data: body);
+    return res;
+  }
 }

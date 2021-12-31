@@ -46,4 +46,8 @@ class CompanyDetailsState extends GetxController with StateMixin {
   void addCompany(Company model) async {
     await api.addCompay(model);
   }
+
+  void removeCompany(Company model) async {
+    await api.removeCompay(model);
+  }
 }
