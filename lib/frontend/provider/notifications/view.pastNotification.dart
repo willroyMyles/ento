@@ -2,6 +2,7 @@ import 'package:ento/frontend/components/items/notification.item.dart';
 import 'package:ento/frontend/provider/drawer/view.drawer.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/frontend/provider/notifications/state.notifications.dart';
+import 'package:ento/frontend/provider/settings/view.settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class PastNotifications extends StatelessWidget {
             child: TextButton.icon(
                 onPressed: () {
                   // _scaffoldKey.currentState?.openDrawer();
+                  Get.to(() => ProviderSettingsView());
                 },
                 icon: Icon(
                   CupertinoIcons.settings,

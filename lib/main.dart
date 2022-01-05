@@ -1,6 +1,7 @@
 import 'package:ento/backend/api/api.dart';
 import 'package:ento/frontend/customer/homepage/view.home.dart';
 import 'package:ento/frontend/login/view.login.dart';
+import 'package:ento/loadingView.dart';
 import 'package:ento/services/information.service.dart';
 import 'package:ento/services/storage.service.dart';
 import 'package:ento/services/theme.service.dart';
@@ -30,35 +31,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading)
-      return MaterialApp(
-        home: Scaffold(
-          body: Container(
-            alignment: Alignment.center,
-            child: Text("loading"),
-          ),
-        ),
-      );
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: themeService.lightTheme,
-      routes: {"/": (context) => LoginView()},
+      routes: {"/": (context) => LoadingView()},
     );
   }
 
-  void initalize() async {
-    await Firebase.initializeApp();
-    await storeage.init();
-    Get.put(ApiCall());
-    var info = Get.find<InformationService>();
-
-    info.isSignedIn.stream.listen((event) {
-      print("this is event $event");
-      setState(() {
-        loading = false;
-      });
-    });
-  }
+  void initalize() async {}
 }
 
 class MainPage extends StatelessWidget {

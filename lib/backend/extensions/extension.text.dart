@@ -20,4 +20,24 @@ extension TextExtension on Text {
 
     return text;
   }
+
+  dateExact() {
+    var time = ta.format(
+      DateTime.fromMillisecondsSinceEpoch(int.tryParse(this.data!) ?? 0),
+    );
+    var style = this.style ?? TextStyle();
+    var text = Text(
+      time,
+      maxLines: this.maxLines,
+      overflow: this.overflow,
+      softWrap: true,
+      style: style.copyWith(color: Colors.grey.withOpacity(.8)),
+      textAlign: this.textAlign,
+      textScaleFactor: this.textScaleFactor,
+    );
+
+    return text;
+  }
+
+  body() {}
 }

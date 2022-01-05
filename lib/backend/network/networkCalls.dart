@@ -83,7 +83,8 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  addNotificationToMyNotifications(String userId, String ref) async {
+  Future<Response<dynamic>> addNotificationToMyNotifications(
+      String userId, String ref) async {
     var res = await dio
         .post("$baseUrl$notificaionEndpoint/$userId/notifications/$ref");
     return res;
@@ -96,6 +97,11 @@ class NetworkCalls extends BaseCalls {
       "token": "this token yah now"
     };
     var res = await dio.post("$baseUrl$userEndpoint/remove", data: body);
+    return res;
+  }
+
+  Future<Response<dynamic>> editCompany(Map<String, dynamic> obj, String id) {
+    var res = dio.patch("$baseUrl$companyEndpoint/$id", data: obj);
     return res;
   }
 }

@@ -81,13 +81,13 @@ class FireBaseMessagingService {
   }
 
   void _handleMessage(RemoteMessage message) {
-    print("message recieved $message");
+    print("message handle recieved recieved ${message.toString()}");
     api.addNotificationToMyNotifications(message.data["ref"]);
     noti.createNotification(message);
   }
 
   void _handleMessagePressed(RemoteMessage message) {
-    print("message recieved $message");
+    print("message pressed recieved ${message.toString()}");
     api.addNotificationToMyNotifications(message.data["ref"]);
     // Navigator.of(Get.context).pushNamed(message.data["ref"]);
   }

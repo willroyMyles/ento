@@ -329,6 +329,9 @@ class ApiCall with AuthMixin, StorageMixin {
     try {
       var res = await executor.addNotificationToMyNotifications(
           info.userData.value.id, ref);
+      NotificationModel model = NotificationModel.fromMap(res.data);
+      info.updateNotifications(model);
+      return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
       // return Future.error("could not subscribe company");
@@ -350,6 +353,25 @@ class ApiCall with AuthMixin, StorageMixin {
     } on Error catch (e) {
       printError(info: e.toString());
       return Future.error("could not subscribe company");
+    }
+  }
+
+  Future<bool> editCompany(Map<String, dynamic> obj) async {
+    try {
+      final id = info.myCompany.value.id;
+      if (obj.containsKey("backdrop"))
+        obj["backdrop"] =
+            await uploadPictureDynamic(obj["backdrop"], "backdrop", id);
+      if (obj.containsKey("logo"))
+        obj["logo"] = await uploadPictureDynamic(obj["logo"], "logo", id);
+      var res = await executor.editCompany(obj, id);
+      Company c = Company.fromMap(res.data);
+      info.updateCompanies(c);
+
+      return Future.value(true);
+    } catch (e) {
+      print(e);
+      return Future.value(false);
     }
   }
 }

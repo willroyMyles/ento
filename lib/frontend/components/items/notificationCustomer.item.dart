@@ -25,20 +25,27 @@ class NotificationCustomerItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (model.name != null) Text(model.name!),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(model.title),
-                SizedBox(
-                  height: 4,
-                ),
-                Text(model.body ?? ""),
-              ],
+            Container(
+              width: Get.width * .7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (model.name != null) Text(model.name!),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(model.title),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    model.body ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                  ),
+                ],
+              ),
             ),
             Spacer(),
             if (model.picture != null)

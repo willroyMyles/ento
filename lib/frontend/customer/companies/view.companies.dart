@@ -1,6 +1,7 @@
 import 'package:ento/frontend/components/items/company.item.dart';
 import 'package:ento/frontend/components/items/company.item2.dart';
 import 'package:ento/frontend/customer/companies/state.companies.dart';
+import 'package:ento/frontend/customer/companies/view.allCompanies.dart';
 import 'package:ento/services/fbMessaging.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,11 @@ class CompaniesView extends StatelessWidget {
                 Container(
                     padding: EdgeInsets.only(left: 20),
                     child: Text("Companies")),
-                TextButton(onPressed: () {}, child: Text("view all"))
+                TextButton(
+                    onPressed: () {
+                      Get.to(() => AllCompaniesView());
+                    },
+                    child: Text("view all"))
               ],
             ),
           ),
@@ -56,7 +61,7 @@ class CompaniesView extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.all(15),
-              itemCount: items.length,
+              itemCount: items.length < 5 ? items.length : 5,
               itemBuilder: (context, index) {
                 return CompanyItem2(model: items.elementAt(index));
               },

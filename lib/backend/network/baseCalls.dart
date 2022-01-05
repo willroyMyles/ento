@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 class BaseCalls {
   final dio = Dio();
   String baseUrl = "http://192.168.100.194:3000";
+  // String baseUrl = "http://localhost:3000";
   String companyEndpoint = "/companies";
   String notificaionEndpoint = "/notifications";
   String formsEndpoint = "/forms";

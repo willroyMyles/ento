@@ -26,6 +26,7 @@ class BottomSheetService {
       snap: true,
       builder: (context, scrollController) {
         return BottomSheet(
+          // enableDrag: false,
           onClosing: () {},
           builder: (context) => NotificationCustomerDetail(
             model: model,

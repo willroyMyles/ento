@@ -36,7 +36,7 @@ class NotificationService {
     });
   }
 
-  createNotification(RemoteMessage message) {
+  createSimpleNotification(RemoteMessage message) {
     awe.createNotification(
         content: NotificationContent(
           id: 10,
@@ -60,6 +60,44 @@ class NotificationService {
             label: "No",
           )
         ]);
+  }
+
+  createPromotionNotification(RemoteMessage message) {
+    awe.createNotification(
+        content: NotificationContent(
+            id: 10,
+            channelKey: "test_channel",
+            title: message.notification?.title,
+            body: message.notification?.body,
+            ticker: "what is ticker",
+            color: Colors.green,
+            displayOnForeground: true,
+            displayOnBackground: true,
+            summary: "summary of message",
+            backgroundColor: Colors.yellow,
+            bigPicture: message.data["image"],
+            // category: NotificationCategory.,
+            // icon: message.notification?.android?.imageUrl,
+
+            largeIcon: message.data["image"],
+            hideLargeIconOnExpand: true,
+            notificationLayout: NotificationLayout.BigPicture),
+        actionButtons: [
+          NotificationActionButton(
+            key: "yes",
+            label: "Yes",
+          ),
+          NotificationActionButton(
+            key: "No",
+            label: "No",
+          )
+        ]);
+  }
+
+  createNotification(RemoteMessage message) {
+    if (message.data["image"] != "")
+      return createPromotionNotification(message);
+    return createSimpleNotification(message);
   }
 }
 
