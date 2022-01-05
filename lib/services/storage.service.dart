@@ -6,9 +6,11 @@ import 'package:ento/backend/extensions/ext.dart';
 
 class StorageService {
   late final GetStorage store;
+  late final GetStorage notiStore;
   Future init() async {
     await GetStorage.init();
     store = GetStorage();
+    notiStore = GetStorage("notiStore");
     return Future.value();
   }
 }
