@@ -163,7 +163,7 @@ class ApiCall with AuthMixin, StorageMixin {
         var n = NotificationModel.fromMap(item);
         list.add(n);
       }
-      info.setNotifications(list);
+      info.setCompanyNotifications(list);
       return Future.value(list);
     } on DioError catch (e) {
       printError(info: e.toString());
@@ -194,6 +194,7 @@ class ApiCall with AuthMixin, StorageMixin {
     for (var item in data) {
       var n = NotificationModel.fromMap(item);
       list.add(n);
+      storeage.setDot(n.id);
     }
 
     return list;
@@ -223,14 +224,14 @@ class ApiCall with AuthMixin, StorageMixin {
         var n = NotificationModel.fromMap(item);
         list.add(n);
       }
-      info.setNotifications(list);
+      info.setCompanyNotifications(list);
       return Future.value(list);
     } on DioError catch (e) {
       printError(info: e.toString());
-      return Future.error("no list");
+      return Future.value([]);
     } on Error catch (e) {
       printError(info: e.toString());
-      return Future.error("no list");
+      return Future.value([]);
     }
   }
 
@@ -244,7 +245,7 @@ class ApiCall with AuthMixin, StorageMixin {
       }
       var res = await executor.createNotification(obj);
       NotificationModel model = NotificationModel.fromMap(res.data);
-      info.updateNotifications(model);
+      info.updateCompanyNotifications(model);
       return Future.value(true);
     } on DioError catch (e) {
       printError(info: e.toString());
@@ -366,7 +367,7 @@ class ApiCall with AuthMixin, StorageMixin {
         obj["logo"] = await uploadPictureDynamic(obj["logo"], "logo", id);
       var res = await executor.editCompany(obj, id);
       Company c = Company.fromMap(res.data);
-      info.updateCompanies(c);
+      info.setMyCompany(c);
 
       return Future.value(true);
     } catch (e) {

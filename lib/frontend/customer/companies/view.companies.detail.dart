@@ -1,5 +1,6 @@
 import 'package:ento/backend/models/Company.dart';
 import 'package:ento/frontend/components/items/notification.item.dart';
+import 'package:ento/frontend/components/items/notificationCustomer.item.dart';
 import 'package:ento/frontend/components/manageNotifications.dart';
 import 'package:ento/frontend/customer/companies/state.companies.details.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,47 +52,64 @@ class CompaniesDetailView extends StatelessWidget {
                   ),
                 ],
               ),
-              SliverToBoxAdapter(
-                child: AnimatedContainer(
-                  color: Colors.blue,
-                  height: controller.appBarHeight,
-                  duration: Duration(milliseconds: 350),
-                  child: Column(
-                    children: [
-                      AnimatedSwitcher(
-                        duration: Duration(milliseconds: 350),
-                        child: controller.isExpanded
-                            ? Container(
-                                child: Column(
-                                  children: [
-                                    Text(model.email),
-                                    Text(model.website ??
-                                        "no website available"),
-                                    ManageNotifications(model: model)
-                                  ],
+              SliverAppBar(
+                primary: false,
+                expandedHeight: 400,
+                automaticallyImplyLeading: false,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: AnimatedContainer(
+                    // color: Colors.blue,
+                    // height: controller.appBarHeight,
+                    duration: Duration(milliseconds: 350),
+                    child: Column(
+                      children: [
+                        AnimatedSwitcher(
+                          duration: Duration(milliseconds: 350),
+                          child: controller.isExpanded
+                              ? Container(
+                                  // padding: EdgeInsets.all(15),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        child: Text(model.email),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        child: Text(model.website ??
+                                            "no website available"),
+                                      ),
+                                      ManageNotifications(model: model)
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  key: ValueKey("empty"),
                                 ),
-                              )
-                            : Container(
-                                key: ValueKey("empty"),
-                              ),
-                      ),
-                      Spacer(),
-                      TextButton(
-                          onPressed: () {
-                            controller.toggleHeight();
-                          },
-                          child: Text(
-                            controller.isExpanded ? "less" : "more",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          )),
-                    ],
+                        ),
+                        Spacer(),
+                        // TextButton(
+                        //     onPressed: () {
+                        //       controller.toggleHeight();
+                        //     },
+                        //     child: Text(
+                        //       controller.isExpanded ? "less" : "more",
+                        //       style:
+                        //           TextStyle(color: Colors.white, fontSize: 18),
+                        //     )),
+                      ],
+                    ),
                   ),
                 ),
               ),
               if (controller.status.isSuccess)
                 SliverList(
                     delegate: SliverChildListDelegate(controller.list.map((e) {
-                  return NotificationItem(model: e);
+                  return NotificationCustomerItem(model: e);
                 }).toList())),
               if (controller.status.isLoading)
                 SliverToBoxAdapter(

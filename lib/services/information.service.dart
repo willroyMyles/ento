@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class InformationService {
   RxObject<Company> companies = new RxObject({});
   RxObject<NotificationModel> notifications = new RxObject({});
+  RxObject<NotificationModel> companyNotifications = new RxObject({});
   Rx<UserData> userData = UserData(id: "", email: "").obs;
   Rx<Company> myCompany = Company.empty().obs;
   RxList<String> notificationTypes = RxList([]);
@@ -13,9 +14,9 @@ class InformationService {
 
   setUserData(UserData? data) {
     isSignedIn.value = data != null;
-    // Future.delayed(Duration(milliseconds: 200), () {
-    //   isSignedIn.refresh();
-    // });
+    Future.delayed(Duration(milliseconds: 200), () {
+      isSignedIn.refresh();
+    });
     if (data == null) return;
     userData.value = data;
     userData.refresh();
@@ -34,6 +35,9 @@ class InformationService {
   setNotifications(List<dynamic> list) => notifications.set(list);
   updateNotifications(NotificationModel model) =>
       notifications.updateModel(model);
+  setCompanyNotifications(List<dynamic> list) => companyNotifications.set(list);
+  updateCompanyNotifications(NotificationModel model) =>
+      companyNotifications.updateModel(model);
   setNotificationTypes(List<String> list) => notificationTypes.value = list;
   updateNotificationTypes(String type) => notificationTypes
     ..add(type)

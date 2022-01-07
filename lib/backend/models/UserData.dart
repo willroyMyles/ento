@@ -1,7 +1,10 @@
 import 'dart:convert';
-
 import 'package:ento/backend/enums/ageGroup.dart';
 import 'package:ento/backend/enums/gender.dart';
+import 'package:ento/backend/models/ManageNotificationModel.dart';
+import 'package:ento/services/information.service.dart';
+import 'package:ento/services/storage.service.dart';
+import 'package:get/get.dart';
 
 import 'Company.dart';
 
@@ -72,14 +75,37 @@ class UserData {
         isCompany: map['isCompany'],
         company:
             map['company'] != null ? Company.fromMap(map['company']) : null,
-        companyIds: extractList(map["subscribedCompanies"]));
+        companyIds:
+            extractList(map["subscribedCompanies"], companyId: map["id"]));
   }
 
-  static List<String> extractList(List<dynamic>? listOfMaps) {
+  static List<String> extractList(List<dynamic>? listOfMaps,
+      {required String companyId}) {
     if (listOfMaps == null) return [];
 
     var maps = List<Map<String, dynamic>>.from(listOfMaps);
     List<String> stringlist = [];
+
+    storeage.manageNotiStore.erase();
+    var obj = storeage.manageNotiStore.read(companyId);
+
+    var obj1 = ManageNotificationModel.empty();
+    if (obj == null) {
+      obj1.id = companyId;
+      var info = Get.find<InformationService>();
+      var list = info.notificationTypes.value;
+      list.map((element) {
+        obj1.permissions.putIfAbsent(element, () => true);
+        print(element);
+      });
+      storeage.manageNotiStore.write(companyId, obj1.toMap());
+    } else {
+      var noti = ManageNotificationModel.fromMap(obj);
+      print(noti);
+
+      // storeage.manageNotiStore.write(companyId, obj);
+    }
+
     maps.forEach((element) {
       stringlist.add(element.values.first as String);
     });

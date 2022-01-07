@@ -33,9 +33,10 @@ class PastNotificationState extends GetxController
   }
 
   initialize() async {
-    info.notifications.stream.listen((event) {
+    info.companyNotifications.stream.listen((event) {
       refresh();
       print("refrehsed");
+      if (event.length == 0) return change("", status: RxStatus.empty());
       change("", status: RxStatus.success());
     });
 

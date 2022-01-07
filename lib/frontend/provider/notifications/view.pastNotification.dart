@@ -3,6 +3,7 @@ import 'package:ento/frontend/provider/drawer/view.drawer.dart';
 import 'package:ento/frontend/provider/notifications/create/view.createNotification.dart';
 import 'package:ento/frontend/provider/notifications/state.notifications.dart';
 import 'package:ento/frontend/provider/settings/view.settings.dart';
+import 'package:ento/services/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,9 +53,7 @@ class PastNotifications extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           if (controller.status.isEmpty)
-            return Container(
-              child: Text("empty"),
-            );
+            return Constants.empty("No Notifications \nas of yet");
           if (controller.status.isSuccess)
             return Container(
               alignment: Alignment.center,

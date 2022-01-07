@@ -32,7 +32,7 @@ class _NotificationCustomerItemState extends State<NotificationCustomerItem> {
               onTap: () {
                 // bts.showBottomSheet(NotificationCustomerDetail(model: model));
                 bts.showNotificationBottomSheet(widget.model);
-                storeage.notiStore.write(widget.model.id, true);
+                storeage.notiStore.write(widget.model.id, false);
                 setState(() {});
               },
               child: Row(
@@ -71,8 +71,7 @@ class _NotificationCustomerItemState extends State<NotificationCustomerItem> {
               ),
             ),
           ),
-          if (storeage.notiStore.read(widget.model.id) == null ||
-              !storeage.notiStore.read(widget.model.id))
+          if (storeage.getDot(widget.model.id))
             Positioned(
               top: 12,
               right: 22,

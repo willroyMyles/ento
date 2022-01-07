@@ -13,11 +13,12 @@ class ManageNotifications extends StatelessWidget {
     return Container(
       height: 300,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(.2), width: 2)),
+          border: Border.all(color: Colors.grey.withOpacity(.9), width: 0)),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(top: 20),
             alignment: Alignment.centerLeft,
             child: Text("manage ${model.name} notifications"),
           ),
@@ -31,6 +32,7 @@ class ManageNotifications extends StatelessWidget {
                   onChanged: (value) {},
                   title: Text(item),
                   activeColor: Colors.orange,
+                  // tileColor: Colors.red,
                 );
               },
             ),

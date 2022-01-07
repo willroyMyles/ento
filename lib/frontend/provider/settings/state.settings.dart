@@ -6,10 +6,14 @@ class ProviderSettingsState extends GetxController
   void setBackdrop(String path) async {
     var obj = {"backdrop": path};
     bool res = await api.editCompany(obj);
+    refresh();
   }
 
   void setLogo(String path) async {
     var obj = {"logo": path};
     bool res = await api.editCompany(obj);
+    refresh();
   }
+
+  selectImage() {}
 }

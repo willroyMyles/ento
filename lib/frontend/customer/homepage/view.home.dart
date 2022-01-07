@@ -13,13 +13,13 @@ class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   final controller = Get.put(HomeState());
   final info = Get.find<InformationService>();
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     // if (!info.userData.value.isCompany!)
     return Scaffold(
-      // key: _scaffoldKey,
+      key: _scaffoldKey,
       // appBar: AppBar(),
       drawer: Drawer(
         elevation: 0,
@@ -43,7 +43,8 @@ class HomeView extends StatelessWidget {
             leading: Container(
               child: TextButton.icon(
                   onPressed: () {
-                    // _scaffoldKey.currentState!.openDrawer();
+                    _scaffoldKey.currentState!.openDrawer();
+                    // Scaffold.of(context).openDrawer();
                   },
                   icon: Icon(
                     CupertinoIcons.person_alt_circle_fill,
@@ -51,32 +52,32 @@ class HomeView extends StatelessWidget {
                   ),
                   label: Text("")),
             ),
-            actions: [
-              Container(
-                child: TextButton.icon(
-                  onPressed: () {
-                    Get.to(() => ScanQRCode());
-                  },
-                  icon: Icon(
-                    CupertinoIcons.search,
-                    color: Colors.white,
-                  ),
-                  label: Text(""),
-                ),
-              ),
-              Container(
-                child: TextButton.icon(
-                  onPressed: () {
-                    Get.to(() => ScanQRCode());
-                  },
-                  icon: Icon(
-                    CupertinoIcons.qrcode_viewfinder,
-                    color: Colors.white,
-                  ),
-                  label: Text(""),
-                ),
-              )
-            ],
+            // actions: [
+            //   Container(
+            //     child: TextButton.icon(
+            //       onPressed: () {
+            //         Get.to(() => ScanQRCode());
+            //       },
+            //       icon: Icon(
+            //         CupertinoIcons.search,
+            //         color: Colors.white,
+            //       ),
+            //       label: Text(""),
+            //     ),
+            //   ),
+            //   Container(
+            //     child: TextButton.icon(
+            //       onPressed: () {
+            //         Get.to(() => ScanQRCode());
+            //       },
+            //       icon: Icon(
+            //         CupertinoIcons.qrcode_viewfinder,
+            //         color: Colors.white,
+            //       ),
+            //       label: Text(""),
+            //     ),
+            //   )
+            // ],
           ),
         ),
         CompaniesView(),
