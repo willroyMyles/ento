@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ento/frontend/components/changeTextListTile.dart';
 import 'package:ento/frontend/components/selectImageWidget.dart';
 import 'package:ento/frontend/components/selectListImageWidget.dart';
 import 'package:ento/frontend/provider/settings/state.settings.dart';
@@ -74,26 +75,18 @@ class ProviderSettingsView extends StatelessWidget {
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                  onTap: () {},
-                  // tileColor: Colors.blueGrey,
-                  title: Text(model.name),
-                  subtitle: Text("change name"),
-                  trailing: Icon(Icons.edit),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 3),
-                child: ListTile(
-                  onTap: () {},
-                  // tileColor: Colors.blueGrey,
-                  title: Text(model.website ?? ""),
-                  subtitle: Text("change website"),
-                  trailing: Icon(Icons.edit),
-                ),
-              ),
+              ChangeTextListTile(
+                  text: "name",
+                  title: model.name,
+                  valueSetter: controller.setName),
+              ChangeTextListTile(
+                  text: "website",
+                  title: model.website,
+                  valueSetter: controller.setWebsite),
+              ChangeTextListTile(
+                  text: "phone number",
+                  title: model.contact,
+                  valueSetter: controller.setPhoneNumber),
               SelectListImageWidget(
                 msg: "backdrop",
                 valueSetter: controller.setBackdrop,

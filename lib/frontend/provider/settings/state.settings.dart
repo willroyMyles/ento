@@ -3,17 +3,15 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 class ProviderSettingsState extends GetxController
     with StateMixin, ApiInfoMixin {
-  void setBackdrop(String path) async {
-    var obj = {"backdrop": path};
+  void setBackdrop(String path) => setObject(path, "backdrop");
+  void setLogo(String path) => setObject(path, "logo");
+  void setName(String path) => setObject(path, "name");
+  void setWebsite(String path) => setObject(path, "website");
+  void setPhoneNumber(String path) => setObject(path, "contact");
+
+  void setObject(String prop, String propName) async {
+    var obj = {propName: prop};
     bool res = await api.editCompany(obj);
     refresh();
   }
-
-  void setLogo(String path) async {
-    var obj = {"logo": path};
-    bool res = await api.editCompany(obj);
-    refresh();
-  }
-
-  selectImage() {}
 }

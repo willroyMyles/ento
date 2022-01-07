@@ -59,15 +59,16 @@ class SelectListImageWidget extends StatelessWidget {
                       placeholder: (context, url) => Container(
                         color: Colors.grey.withOpacity(.2),
                       ),
-                      width: 50,
-                      height: 50,
+                      width: 45,
+                      height: 45,
+                      fit: BoxFit.cover,
                     );
                   }),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
-                Icon(Icons.image)
+                if (imageUrl == null)
+                  Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: Icon(Icons.image))
               ],
             ),
           ),
