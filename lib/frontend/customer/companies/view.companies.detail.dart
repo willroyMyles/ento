@@ -36,7 +36,9 @@ class CompaniesDetailView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      if (!subscribed)
+                      var isSub = model.isCompanyInList(
+                          controller.info.userData.value.companyIds ?? []);
+                      if (!isSub)
                         controller.addCompany(model);
                       else
                         controller.removeCompany(model);
@@ -56,10 +58,11 @@ class CompaniesDetailView extends StatelessWidget {
                 primary: false,
                 expandedHeight: 400,
                 automaticallyImplyLeading: false,
+                backgroundColor: Colors.green,
                 flexibleSpace: FlexibleSpaceBar(
                   background: AnimatedContainer(
                     // color: Colors.blue,
-                    // height: controller.appBarHeight,
+                    height: 400,
                     duration: Duration(milliseconds: 350),
                     child: Column(
                       children: [

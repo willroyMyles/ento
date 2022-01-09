@@ -10,7 +10,7 @@ class CompanyDetailsState extends GetxController with StateMixin {
   final api = Get.find<ApiCall>();
   final info = Get.find<InformationService>();
   double appBarHeight = 50;
-  bool isExpanded = false;
+  bool isExpanded = true;
   List<NotificationModel> list = [];
   @override
   void onInit() {

@@ -86,28 +86,29 @@ class UserData {
     var maps = List<Map<String, dynamic>>.from(listOfMaps);
     List<String> stringlist = [];
 
-    storeage.manageNotiStore.erase();
-    var obj = storeage.manageNotiStore.read(companyId);
+    // storeage.manageNotiStore.erase();
 
-    var obj1 = ManageNotificationModel.empty();
-    if (obj == null) {
-      obj1.id = companyId;
-      var info = Get.find<InformationService>();
-      var list = info.notificationTypes.value;
-      list.map((element) {
-        obj1.permissions.putIfAbsent(element, () => true);
-        print(element);
-      });
-      storeage.manageNotiStore.write(companyId, obj1.toMap());
-    } else {
-      var noti = ManageNotificationModel.fromMap(obj);
-      print(noti);
-
-      // storeage.manageNotiStore.write(companyId, obj);
-    }
-
+    var info = Get.find<InformationService>();
+    var list = info.notificationTypes;
     maps.forEach((element) {
-      stringlist.add(element.values.first as String);
+      String str = element.values.first as String;
+      stringlist.add(str);
+
+      var obj = storeage.manageNotiStore.read(str);
+
+      if (obj == null) {
+        var obj1 = ManageNotificationModel.empty();
+        obj1.id = str;
+        for (var el in list) {
+          print(el);
+          obj1.permissions.putIfAbsent(el, () => true);
+        }
+
+        storeage.manageNotiStore.write(str, obj1.toMap());
+      } else {
+        var noti = ManageNotificationModel.fromMap(obj);
+        print(noti);
+      }
     });
     return stringlist;
   }

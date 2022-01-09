@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ento/backend/models/ManageNotificationModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:ento/backend/extensions/ext.dart';
@@ -14,6 +15,18 @@ class StorageService {
     notiStore = GetStorage("notiStore");
     manageNotiStore = GetStorage("manageNotiStore");
     return Future.value();
+  }
+
+  ManageNotificationModel getManagedPermission(String permissionId) {
+    var obj = storeage.manageNotiStore.read(permissionId);
+    var noti = ManageNotificationModel.fromMap(obj);
+    return noti;
+  }
+
+  setManagedPermission(String permissionId, String permission, bool val) {
+    var perm = getManagedPermission(permissionId);
+    perm.permissions[permission] = val;
+    manageNotiStore.write(permissionId, perm.toMap());
   }
 
   getDot(String id) {
