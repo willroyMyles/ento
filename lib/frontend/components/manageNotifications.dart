@@ -17,10 +17,12 @@ class _ManageNotificationsState extends State<ManageNotifications> {
 
   @override
   Widget build(BuildContext context) {
+    if (!info.userData.value.companyIds!.contains(widget.model.id))
+      return Container();
     return Container(
-      height: 300,
+      padding: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(.9), width: 0)),
+          border: Border.all(color: Colors.grey.withOpacity(.0), width: 0)),
       child: Column(
         children: [
           Container(

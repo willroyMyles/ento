@@ -19,11 +19,36 @@ class CompaniesDetailView extends StatelessWidget {
     controller.getNotifications(model.id);
     return Scaffold(
       body: GetBuilder<CompanyDetailsState>(
+        initState: (state) {
+          controller.getExpanded(model.id);
+        },
         builder: (state) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
                 title: Text(model.name),
+                bottom: PreferredSize(
+                  preferredSize: Size(0, 40),
+                  child: Container(
+                    width: Get.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          child: Text(model.email),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 7),
+                          child: Text(model.website ?? "no website available"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 actions: [
                   InkWell(
                     onTap: () {
@@ -36,8 +61,9 @@ class CompaniesDetailView extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      var isSub = model.isCompanyInList(
-                          controller.info.userData.value.companyIds ?? []);
+                      var isSub = controller.info.userData.value.companyIds
+                              ?.contains(model.id) ??
+                          false;
                       if (!isSub)
                         controller.addCompany(model);
                       else
@@ -46,7 +72,9 @@ class CompaniesDetailView extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.only(left: 20, right: 15),
                       child: Icon(
-                        subscribed
+                        controller.info.userData.value.companyIds
+                                    ?.contains(model.id) ??
+                                false
                             ? CupertinoIcons.clear_circled
                             : CupertinoIcons.add_circled,
                       ),
@@ -54,58 +82,15 @@ class CompaniesDetailView extends StatelessWidget {
                   ),
                 ],
               ),
-              SliverAppBar(
-                primary: false,
-                expandedHeight: 400,
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.green,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: AnimatedContainer(
-                    // color: Colors.blue,
-                    height: 400,
-                    duration: Duration(milliseconds: 350),
-                    child: Column(
-                      children: [
-                        AnimatedSwitcher(
-                          duration: Duration(milliseconds: 350),
-                          child: controller.isExpanded
-                              ? Container(
-                                  // padding: EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 4),
-                                        child: Text(model.email),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 4),
-                                        child: Text(model.website ??
-                                            "no website available"),
-                                      ),
-                                      ManageNotifications(model: model)
-                                    ],
-                                  ),
-                                )
-                              : Container(
-                                  key: ValueKey("empty"),
-                                ),
-                        ),
-                        Spacer(),
-                        // TextButton(
-                        //     onPressed: () {
-                        //       controller.toggleHeight();
-                        //     },
-                        //     child: Text(
-                        //       controller.isExpanded ? "less" : "more",
-                        //       style:
-                        //           TextStyle(color: Colors.white, fontSize: 18),
-                        //     )),
-                      ],
-                    ),
+              // if (controller.isExpanded)
+              SliverToBoxAdapter(
+                child: AnimatedContainer(
+                  constraints: BoxConstraints(
+                      maxHeight: controller.isExpanded ? 250 : 0),
+                  duration: Duration(milliseconds: 350),
+                  child: Container(
+                    // padding: EdgeInsets.all(15),
+                    child: ManageNotifications(model: model),
                   ),
                 ),
               ),

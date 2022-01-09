@@ -17,6 +17,11 @@ class CompanyDetailsState extends GetxController with StateMixin {
     super.onInit();
   }
 
+  bool getExpanded(String id) {
+    isExpanded = info.userData.value.companyIds?.contains(id) ?? false;
+    return isExpanded;
+  }
+
   void getNotifications(String id) async {
     change("", status: RxStatus.loading());
     var res = await api.getNotifications(id);
@@ -45,9 +50,13 @@ class CompanyDetailsState extends GetxController with StateMixin {
 
   void addCompany(Company model) async {
     await api.addCompay(model.id);
+    getExpanded(model.id);
+    refresh();
   }
 
   void removeCompany(Company model) async {
     await api.removeCompay(model);
+    getExpanded(model.id);
+    refresh();
   }
 }
