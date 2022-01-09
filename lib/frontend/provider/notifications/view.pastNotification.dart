@@ -4,6 +4,7 @@ import 'package:ento/frontend/provider/notifications/create/view.createNotificat
 import 'package:ento/frontend/provider/notifications/state.notifications.dart';
 import 'package:ento/frontend/provider/settings/view.settings.dart';
 import 'package:ento/services/constants.dart';
+import 'package:ento/services/helper.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,8 +23,41 @@ class PastNotifications extends StatelessWidget {
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Obx(() => Text(controller.info.myCompany.value.name)),
+        title: Obx(() => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: Text(controller.info.myCompany.value.name)),
+                Text(
+                  "view all your notifications",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            )),
+        bottom: PreferredSize(
+          preferredSize: Size(0, 20),
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [],
+              )),
+        ),
         actions: [
+          InkWell(
+            onTap: () {
+              // controller.showQrCode(model);
+              showQrCodeAnywhere(controller.info.myCompany.value);
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: 20, right: 15),
+              child: Icon(CupertinoIcons.qrcode),
+            ),
+          ),
           Container(
             child: TextButton.icon(
                 onPressed: () {
@@ -35,7 +69,7 @@ class PastNotifications extends StatelessWidget {
                   color: Colors.white,
                 ),
                 label: Container()),
-          )
+          ),
         ],
         centerTitle: false,
       ),
@@ -62,12 +96,14 @@ class PastNotifications extends StatelessWidget {
                   controller.callGetNotifications();
                 },
                 child: ListView.builder(
+                  padding: EdgeInsets.only(top: 15),
                   itemBuilder: (context, index) {
-                    var item = controller.info.notifications.value.values
+                    var item = controller.info.companyNotifications.value.values
                         .elementAt(index);
                     return NotificationItem(model: item);
                   },
-                  itemCount: controller.info.notifications.value.values.length,
+                  itemCount:
+                      controller.info.companyNotifications.value.values.length,
                 ),
               ),
             );

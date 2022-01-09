@@ -38,13 +38,15 @@ class CompanyItem extends StatelessWidget {
               ],
             ),
             Container(
-              child: Icon(
-                CupertinoIcons.check_mark_circled,
-                size: 30,
-                color:
-                    model.isCompanyInList(info.userData.value.companyIds ?? [])
-                        ? Colors.green
-                        : Colors.grey.withOpacity(.6),
+              child: Obx(
+                () => Icon(
+                  CupertinoIcons.check_mark_circled,
+                  size: 30,
+                  color: model
+                          .isCompanyInList(info.userData.value.companyIds ?? [])
+                      ? Colors.green
+                      : Colors.grey.withOpacity(.6),
+                ),
               ),
             )
           ],

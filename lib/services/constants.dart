@@ -1,3 +1,4 @@
+import 'package:ento/loadingView.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -17,4 +18,11 @@ class Constants {
       ),
     );
   }
+
+  static Widget get loadingView => Container(
+        alignment: Alignment.center,
+        child: Container(
+          child: CircularProgressIndicator(),
+        ),
+      );
 }

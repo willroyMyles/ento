@@ -48,7 +48,7 @@ class CompanyItem2 extends StatelessWidget {
                 if (isSub)
                   api.removeCompay(model);
                 else
-                  api.addCompay(model);
+                  api.addCompay(model.id);
               },
               child: Container(
                 child: Obx(

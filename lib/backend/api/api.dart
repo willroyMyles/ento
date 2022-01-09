@@ -299,10 +299,15 @@ class ApiCall with AuthMixin, StorageMixin {
     }
   }
 
-  Future<bool> addCompay(Company model) async {
+  Future<bool> addCompay(String ref) async {
     try {
-      await executor.addCompany(model, info.userData.value.id);
-      info.userData.value.companyIds?.add(model.id);
+      if (info.userData.value.companyIds!.contains(ref)) {
+        //promt that user already added company
+        print("ref is already in ids");
+        return Future.value(true);
+      }
+      await executor.addCompany(ref, info.userData.value.id);
+      info.userData.value.companyIds?.add(ref);
       info.userData.refresh();
       return Future.value(true);
     } on DioError catch (e) {

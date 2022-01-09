@@ -66,12 +66,8 @@ class NetworkCalls extends BaseCalls {
     return res;
   }
 
-  addCompany(Company company, String id) async {
-    var body = {
-      "companyId": company.id,
-      "userId": id,
-      "token": "this token yah now"
-    };
+  addCompany(String ref, String id) async {
+    var body = {"companyId": ref, "userId": id, "token": "this token yah now"};
     var res = await dio.post("$baseUrl$userEndpoint/add", data: body);
     return res;
   }

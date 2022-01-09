@@ -35,16 +35,16 @@ class ProviderSettingsView extends StatelessWidget {
                   // height: 450,
                   child: Stack(
                     children: [
-                      // if (model.backdrop != null)
-                      Container(
-                        // height: 250,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          image: DecorationImage(
-                              image: Image.network(model.backdrop!).image,
-                              fit: BoxFit.cover),
+                      if (model.backdrop != null)
+                        Container(
+                          // height: 250,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            image: DecorationImage(
+                                image: Image.network(model.backdrop!).image,
+                                fit: BoxFit.cover),
+                          ),
                         ),
-                      ),
                       Positioned(
                           bottom: 10,
                           right: 10,

@@ -62,6 +62,13 @@ class Company {
     };
   }
 
+  Map<String, dynamic> toQrMap() {
+    return {
+      'id': id,
+      'email': email,
+    };
+  }
+
   factory Company.fromMap(Map<String, dynamic> map) {
     return Company(
       id: map['id'] ?? '',
@@ -79,6 +86,7 @@ class Company {
   }
 
   String toJson() => json.encode(toMap());
+  String toQrJson() => json.encode(toQrMap());
 
   factory Company.fromJson(String source) =>
       Company.fromMap(json.decode(source));

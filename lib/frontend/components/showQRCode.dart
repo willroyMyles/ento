@@ -23,8 +23,16 @@ class ShowQrCode extends StatelessWidget {
               height: 25,
             ),
             QrImage(
-              data: model.toJson(),
+              data: model.toQrJson(),
               size: Get.width - 150,
+              gapless: false,
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.green,
+              dataModuleStyle: QrDataModuleStyle(
+                  color: Colors.green,
+                  dataModuleShape: QrDataModuleShape.circle),
+              eyeStyle:
+                  QrEyeStyle(color: Colors.green, eyeShape: QrEyeShape.circle),
             ),
             SizedBox(
               height: 25,
